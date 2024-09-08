@@ -38,7 +38,7 @@ const SubAdmin = () => {
         { name: 'Name', wrap: true, selector: row => row?.first_name + " " + row?.last_name, },
         { name: 'Email',  wrap: true, sort: true, selector: row => row?.email_or_phone },
         { name: <div style={{whiteSpace:"revert"}}>Registration Date</div>, wrap: true, sort: true, selector: row => moment(row?.createdAt).format('MMMM Do YYYY') },
-        { name: 'Status', wrap: true, sort: true, selector: statuslinkFollow },
+        // { name: 'Status', wrap: true, sort: true, selector: statuslinkFollow },
         { name: 'Action', wrap: true, selector: linkFollow },
     ];
 
@@ -134,43 +134,87 @@ const SubAdmin = () => {
     var multipleSelect = [
         {
             value: 1,
-            label: 'Traders'
+            label: 'Sub Admin'
         },
         {
             value: 2,
-            label: 'KYC Manager'
+            label: 'Traders'
         },
         {
             value: 3,
-            label: 'Currency Management'
+            label: 'KYC Manager'
         },
         {
             value: 4,
-            label: 'Exchange Wallet Management'
+            label: 'P2P Manager'
         },
         {
             value: 5,
-            label: 'Currency Pair Management'
+            label: 'User Bank'
         },
         {
             value: 6,
-            label: "Exchange Profit"
+            label: "User UPI"
         },
         {
             value: 7,
-            label: "Funds Management"
+            label: "Partners"
         },
         {
             value: 8,
-            label: 'Market Trades'
+            label: 'Coin Listed Details'
         },
         {
             value: 9,
-            label: 'OrderBook'
+            label: 'Currency Managemnet'
         },
         {
             value: 10,
-            label: 'Notification'
+            label: 'Currency Pair Management'
+        },
+        {
+            value: 11,
+            label: 'Funds Deposit Management'
+        },
+        {
+            value: 12,
+            label: 'Funds Withdrawal Management'
+        },
+        {
+            value: 13,
+            label: 'Exchange Profit'
+        },
+        {
+            value: 14,
+            label: 'Exchange Wallet Management'
+        },
+        {
+            value: 15,
+            label: 'Market Trades'
+        },
+        {
+            value: 16,
+            label: 'Orderbook'
+        },
+        {
+            value: 17,
+            label: 'All Open Orders'
+        },
+        {
+            value: 18,
+            label: 'Notification Managemnt'
+        },
+        {
+            value: 19,
+            label: 'Banner Managemnt'
+        },
+        {
+            value: 20,
+            label: 'Support'
+        },
+        {
+            value: 21,
+            label: 'User Wallet Balance'
         },
 
     ];

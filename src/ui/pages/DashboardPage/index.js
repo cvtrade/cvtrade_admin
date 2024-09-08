@@ -32,7 +32,7 @@ const DashboardPage = () => {
                                     Dashboards
                                 </Link>
 
-                                {userType === '1' ?
+                                {permissions.includes(1) || userType === '1' ?
                                     <>
                                         <div className={`nav-link collapsed ${actived?.includes('listsubadmin') || actived?.includes('addsubadmin') ? 'active' : ''}`} data-bs-toggle="collapse" data-bs-target="#collapseSubAdmin" aria-expanded="false" aria-controls="collapseSubAdmin">
                                             <div className="nav-link-icon"><i className="fa fa-user-friends"></i></div>
@@ -50,7 +50,7 @@ const DashboardPage = () => {
                                     : null
                                 }
 
-                                {permissions.includes(1) || userType === '1' ?
+                                {permissions.includes(2) || userType === '1' ?
                                     <>
                                         <div className={`nav-link collapsed ${actived?.includes('tradelist') || actived === "tradelist" ? 'active' : ''}`} data-bs-toggle="collapse" data-bs-target="#collapseTraders" aria-expanded="false" aria-controls="collapseTraders">
                                             <div className="nav-link-icon"><i className="fa fa-wave-square"></i></div>
@@ -68,7 +68,7 @@ const DashboardPage = () => {
                                     : null
                                 }
 
-                                {permissions.includes(2) || userType === '1' ?
+                                {permissions.includes(3) || userType === '1' ?
                                     <>
                                         <div className={`nav-link collapsed ${(actived?.includes('pendingkyc') || actived?.includes('approvedkyc') || actived?.includes('RejectedKyc')) ? 'active' : ''}`} data-bs-toggle="collapse" data-bs-target="#collapseKyc" aria-expanded="false" aria-controls="collapseKyc">
                                             <div className="nav-link-icon"><i className="fa fa-check-circle"></i></div>
@@ -89,7 +89,7 @@ const DashboardPage = () => {
                                     </>
                                     : null
                                 }
-                                {userType === '1' ?
+                                {permissions.includes(4) || userType === '1' ?
                                     <>
                                         <div className={`nav-link collapsed ${(actived?.includes('p2pCoinList') || actived?.includes('p2pHistory') || actived?.includes('p2pPaymentOptions')) ? 'active' : ''}`} data-bs-toggle="collapse" data-bs-target="#collapseP2p" aria-expanded="false" aria-controls="collapseP2p">
                                             <div className="nav-link-icon"><i className="fa fa-check-circle"></i></div>
@@ -112,7 +112,7 @@ const DashboardPage = () => {
                                 }
 
 
-                                { userType === '1' ?
+                                {permissions.includes(5) || userType === '1' ?
                                     <Link className={`nav-link collapsed ${actived?.includes('UserBank') ? 'active' : ''}`} to="UserBank" onClick={() => { setActived('UserBank'); setIsSidebar(true); }}>
                                         <div className="nav-link-icon"><i className="fa fa-user-friends"></i></div>
                                         User Bank
@@ -120,7 +120,7 @@ const DashboardPage = () => {
                                     : null
                                 }
 
-                                { userType === '1' ?
+                                {permissions.includes(6) || userType === '1' ?
                                     <Link className={`nav-link collapsed ${actived?.includes('UserUPI') ? 'active' : ''}`} to="UserUPI" onClick={() => { setActived('UserUPI'); setIsSidebar(true); }}>
                                         <div className="nav-link-icon"><i className="fa fa-user-friends"></i></div>
                                         User UPI
@@ -128,14 +128,14 @@ const DashboardPage = () => {
                                     : null
                                 }
 
-                                {permissions.includes(3) || userType === '1' ?
+                                {permissions.includes(7) || userType === '1' ?
                                     <Link className={`nav-link collapsed ${actived?.includes('partnership') ? 'active' : ''}`} to="partnership" onClick={() => { setActived('partnership'); setIsSidebar(true); }}>
                                         <div className="nav-link-icon"><i className="fa fa-user-friends"></i></div>
                                         Partners
                                     </Link>
                                     : null
                                 }
-                                {permissions.includes(3) || userType === '1' ?
+                                {permissions.includes(8) || userType === '1' ?
                                     <Link className={`nav-link collapsed ${actived?.includes('coinListDetails') ? 'active' : ''}`} to="coinListDetails" onClick={() => { setActived('coinListDetails'); setIsSidebar(true); }}>
                                         <div className="nav-link-icon"><i className="fa fa-user-friends"></i></div>
                                         Coin Listed Details
@@ -150,7 +150,7 @@ const DashboardPage = () => {
                                     : null  
                                 } */}
 
-                                {permissions.includes(3) || userType === '1' ?
+                                {permissions.includes(9) || userType === '1' ?
                                     <Link className={`nav-link collapsed ${actived?.includes('currencymanagement') ? 'active' : ''}`} to="currencymanagement" onClick={() => { setActived('currencymanagement'); setIsSidebar(true); }}>
                                         <div className="nav-link-icon"><i className="fa fa-dollar-sign"></i></div>
                                         Currency Management
@@ -158,14 +158,14 @@ const DashboardPage = () => {
                                     : null
                                 }
 
-                                {permissions.includes(5) || userType === '1' ?
+                                {permissions.includes(10) || userType === '1' ?
                                     <Link className={`nav-link collapsed ${actived?.includes('currencypair') ? 'active' : ''}`} onClick={() => { setActived('currencypair'); setIsSidebar(true); }} to="currencypair">
                                         <div className="nav-link-icon"><i className="fa fa-prescription"></i></div>
                                         Currency Pair Management
                                     </Link>
                                     : null
                                 }
-                                {permissions.includes(7) || userType === '1' ?
+                                {permissions.includes(11) || userType === '1' ?
                                     <>
                                         <div className={`nav-link collapsed ${(actived?.includes('fundsDManagement') || actived?.includes('FundsPendingDeposit')) ? 'active' : ''}`} data-bs-toggle="collapse" data-bs-target="#collapseFundsManagement" aria-expanded="false" aria-controls="collapseSubAdmin">
                                             <div className="nav-link-icon"><i className="fa fa-dollar-sign"></i></div>
@@ -182,7 +182,7 @@ const DashboardPage = () => {
                                     : null
                                 }
 
-                                {permissions.includes(7) || userType === '1' ?
+                                {permissions.includes(12) || userType === '1' ?
                                     <>
                                         <div className={`nav-link collapsed ${(actived?.includes('fundsManagement') || actived?.includes('FundsPendingWithdrawal') || actived?.includes('FundsCancelledWithdrawal')) ? 'active' : ''}`} data-bs-toggle="collapse" data-bs-target="#collapsefundsWithdrawal" aria-expanded="false" aria-controls="collapsefundsWithdrawal">
                                             <div className="nav-link-icon"><i className="fab fa-google-wallet"></i></div>
@@ -202,7 +202,7 @@ const DashboardPage = () => {
                                     </>
                                     : null
                                 }
-                                {permissions.includes(6) || userType === '1' ?
+                                {permissions.includes(13) || userType === '1' ?
                                     <>
                                         <div className={`nav-link collapsed ${(actived?.includes('TradingCommision') || actived?.includes('WithdrawalFees') || actived?.includes('CoinFee')) || actived?.includes('P2pCommission') || actived?.includes('TradingFee') ? 'active' : ''}`} data-bs-toggle="collapse" data-bs-target="#collapseTradingCommision" aria-expanded="false" aria-controls="collapseTradingCommision">
                                             <div className="nav-link-icon"><i className="fab fa-google-wallet"></i></div>
@@ -225,20 +225,20 @@ const DashboardPage = () => {
                                     </>
                                     : null
                                 }
-                                {permissions.includes(4) || userType === '1' ? (
+                                {permissions.includes(14) || userType === '1' ? (
                                     <Link className={`nav-link collapsed ${actived?.includes('exchangeWalletManagement') ? 'active' : ''}`} to="exchangeWalletManagement" onClick={() => { setActived("exchangeWalletManagement"); setIsSidebar(true); }}>
                                         <div className="nav-link-icon"><i className="fa fa-wallet"></i></div>
                                         Exchange Wallet Management
                                     </Link>
                                 ) : null}
-                                {permissions.includes(8) || userType === '1' ?
+                                {permissions.includes(15) || userType === '1' ?
                                     <Link className={`nav-link collapsed ${actived?.includes('tradingfeereport') ? 'active' : ''}`} to="tradingfeereport" onClick={() => { setActived('tradingfeereport'); setIsSidebar(true); }}>
                                         <div className="nav-link-icon"><i className="fa fa-wave-square"></i></div>
                                         Market Trades
                                     </Link>
                                     : null
                                 }
-                                {permissions.includes(9) || userType === '1' ?
+                                {permissions.includes(16) || userType === '1' ?
                                     <Link className={`nav-link collapsed ${actived?.includes('OrderBook') ? 'active' : ''}`} to="OrderBook" onClick={() => { setActived('OrderBook'); setIsSidebar(true); }}>
                                         <div className="nav-link-icon"><i className="fa fa-list"></i></div>
                                         OrderBook
@@ -246,7 +246,7 @@ const DashboardPage = () => {
                                     : null
                                 }
 
-                                {userType === '1' ?
+                                {permissions.includes(17) || userType === '1' ?
                                     <Link className={`nav-link collapsed ${actived?.includes('allOpenOrders') ? 'active' : ''}`} to="allOpenOrders" onClick={() => { setActived('allOpenOrders'); setIsSidebar(true); }}>
                                         <div className="nav-link-icon"><i className="fa fa-wave-square"></i></div>
                                         All Open Orders
@@ -254,7 +254,7 @@ const DashboardPage = () => {
                                     : null
                                 }
 
-                                {permissions.includes(10) || userType === '1' ?
+                                {permissions.includes(18) || userType === '1' ?
 
                                     <Link className={`nav-link collapsed ${actived?.includes('notification') ? 'active' : ''}`} to="notification" onClick={() => { setActived('notification'); setIsSidebar(true); }}>
                                         <div className="nav-link-icon"><i className="fa fa-bell"></i></div>
@@ -262,15 +262,15 @@ const DashboardPage = () => {
                                     </Link>
                                     : null
                                 }
-                                {/* {userType === '1' ? */}
-                                <Link className={`nav-link collapsed ${actived?.includes('bannerManagement') ? 'active' : ''}`} to="bannerManagement" onClick={() => setActived('bannerManagement')}>
-                                    <div className="nav-link-icon"><i className="fa fa-image"></i></div>
-                                    Banner Management
-                                </Link>
-                                {/* : null
-                                } */}
+                                {permissions.includes(19) || userType === '1' ?
+                                    <Link className={`nav-link collapsed ${actived?.includes('bannerManagement') ? 'active' : ''}`} to="bannerManagement" onClick={() => setActived('bannerManagement')}>
+                                        <div className="nav-link-icon"><i className="fa fa-image"></i></div>
+                                        Banner Management
+                                    </Link>
+                                    : null
+                                }
 
-                                {userType === '1' ?
+                                {permissions.includes(20) || userType === '1' ?
                                     <Link className={`nav-link collapsed ${actived?.includes('support') ? 'active' : ''}`} to="support" onClick={() => { setActived('support'); setIsSidebar(true); }}>
                                         <div className="nav-link-icon"><i class="fa fa-user"></i></div>
                                         Support
@@ -278,7 +278,7 @@ const DashboardPage = () => {
                                     : null
                                 }
 
-                                {userType === '1' ?
+                                {permissions.includes(21) || userType === '1' ?
                                     <Link className={`nav-link collapsed ${actived?.includes('user_wallet_balance') ? 'active' : ''}`} to="user_wallet_balance" onClick={() => { setActived('user_wallet_balance'); setIsSidebar(true); }}>
                                         <div className="nav-link-icon"><i class="fa fa-wallet"></i></div>
                                         User Wallet Balance

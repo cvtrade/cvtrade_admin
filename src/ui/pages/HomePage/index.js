@@ -105,7 +105,7 @@ const HomePage = () => {
                     <div className="container-xl px-4 mt-n10">
                         <div className="row">
 
-                            {permissions.includes(1) || userType === '1' ?
+                            {permissions.includes(2) || userType === '1' ?
 
                                 <div className="col-lg-6 col-xl-4 mb-4">
                                     <div className="card bg-primary text-white h-100">
@@ -130,7 +130,7 @@ const HomePage = () => {
                                 : null
                             }
 
-                            {permissions.includes(2) || userType === '1' ?
+                            {permissions.includes(3) || userType === '1' ?
                                 <>
                                     <div className="col-lg-6 col-xl-4 mb-4">
                                         <div className="card bg-success text-white h-100">
