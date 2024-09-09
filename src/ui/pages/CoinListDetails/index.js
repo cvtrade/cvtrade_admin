@@ -35,7 +35,7 @@ const CoinListDetails = () => {
         { name: 'Email ID', wrap: true, selector: row => row?.emailID, },
         { name: <div style={{whiteSpace:"revert"}}>Phone Number</div>, selector: row => row?.PhoneNumber, wrap: true },
         { name: <div style={{whiteSpace:"revert"}}>Contract Address</div>,  wrap: true, selector: row => row?.contractAddress , },
-        { name: <div style={{whiteSpace:"revert"}}>Registration Date</div>, sort: true, selector: row => moment(row?.createdAt).format('MMMM Do YYYY'), wrap: true },
+        { name: <div style={{whiteSpace:"revert"}}>Registration Date</div>, sort: true, selector: row => moment(row?.createdAt).format('MMM Do YYYY hh:mm A'), wrap: true },
         { name: 'Coin Status', sort: true, selector: row => row?.status, },
         { name: 'Action', selector: statuslinkFollow, wrap: true, grow: 1.5 },
         { name: <div style={{whiteSpace:"revert"}}>Status Updated By</div> ,  wrap:true, selector: row => updatedByFormatter(row), },

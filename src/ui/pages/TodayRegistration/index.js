@@ -15,7 +15,7 @@ const TodayRegistration = () => {
     {name: "Name", sort: true, wrap: true, selector: row => row?.firstName ? (row?.firstName + " "+ row?.lastName) : "-----" , },
     { name: "Email", sort: true, wrap: true, selector: row => row.emailId ? row.emailId : "-----", },
     { name: <div style={{whiteSpace:"revert"}}>Phone Number</div>, wrap: true, sort: true, selector: row => row.mobileNumber ? row.mobileNumber : "-----" , },
-    { name: <div style={{whiteSpace:"revert"}}>Registration Date</div>, wrap: true,  sort: true, selector: row => moment(row?.createdAt).format("Do MMMM YYYY") },
+    { name: <div style={{whiteSpace:"revert"}}>Registration Date</div>, wrap: true,  sort: true, selector: row => moment(row?.createdAt).format("MMM Do YYYY hh:mm A") },
 
   ];
 

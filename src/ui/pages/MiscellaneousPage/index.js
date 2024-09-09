@@ -15,7 +15,7 @@ const MiscellaneousPage = () => {
   };
 
   const columns = [
-    { name: "Date", selector: row => moment(row?.createdAt).format("MMM Do YYYY"), },
+    { name: "Date", selector: row => moment(row?.createdAt).format("MMM Do YYYY hh:mm A"), },
     { name: "Email Id", wrap: true, selector: row => row.emailId, },
     { name: "Coin Name", selector: row => row.short_name, },
     { name: "Chain", selector: row => row.chain, },

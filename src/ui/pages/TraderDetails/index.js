@@ -90,7 +90,7 @@ const TraderDetails = (props) => {
     };
 
     const columns = [
-        { name: "Date/Time", selector: row => moment(row?.updatedAt).format("MMM Do YYYY"), },
+        { name: "Date/Time", selector: row => moment(row?.updatedAt).format("MMM Do YYYY hh:mm AMMM Do YYYY"), },
         { name: "Currency", selector: row => row.currency, },
         { name: "Fee", selector: PriceFormat },
         { name: "Type", selector: row => row.order_type, },
@@ -293,9 +293,9 @@ const TraderDetails = (props) => {
 
                                                         </div>
                                                         <hr className="my-3" />
-                                                        <div className="row" > <span className="col-3" >Registration Date:</span> <strong className=" col">{createdAt && moment(createdAt).format('Do MMMM YYYY')}</strong></div>
+                                                        <div className="row" > <span className="col-3" >Registration Date:</span> <strong className=" col">{createdAt && moment(createdAt).format('MMM Do YYYY hh:mm A')}</strong></div>
                                                         <hr className="my-3" />
-                                                        <div className="row" > <span className="col-3" >Verification Date:</span> <strong className=" col">{verificationDate && moment(verificationDate).format('Do MMMM YYYY')}  </strong></div>
+                                                        <div className="row" > <span className="col-3" >Verification Date:</span> <strong className=" col">{verificationDate && moment(verificationDate).format('MMM Do YYYY hh:mm A')}  </strong></div>
                                                         <hr className="my-3" />
                                                         <div className="row" > <span className="col-3" >KYC Type:</span> <strong className=" col"> {kycType} </strong></div>
                                                         <hr className="my-3" />

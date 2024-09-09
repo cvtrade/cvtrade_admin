@@ -38,7 +38,7 @@ const FundsManagement = () => {
 }
 
   const columns = [
-    { name: "Date", selector: row => moment(row?.createdAt).format("MMM Do YYYY"), wrap: true },
+    { name: "Date", grow:2, selector: row => moment(row?.createdAt).format("MMM Do YYYY hh:mm A"), wrap: true },
     { name: "Email Id", wrap: true, selector: row => row.emailId, },
     { name: <div style={{whiteSpace:"revert"}}>Mobile Number</div>, selector: row => row?.mobileNumber, wrap: true },
     { name: "Chain", selector: row => row.chain, },

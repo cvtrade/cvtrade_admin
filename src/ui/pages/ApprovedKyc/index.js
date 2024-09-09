@@ -41,7 +41,7 @@ const ApprovedKyc = () => {
     }
 
     const columns = [
-        { name: "Date",  wrap: true, selector: row => moment(row?.createdAt).format("Do MMMM YYYY, h:mm:ss A") },
+        { name: "Date",  wrap: true, selector: row => moment(row?.createdAt).format("Do MMMM YYYY h:mm:ss A") },
         // { name: "ID", wrap: true, selector: row => row._id, },
         // { name: "Name", wrap: true, selector: row => row?.first_name + " " + row.last_name },
         { name: "Email", wrap: true, selector: row => row.emailId, },
@@ -85,7 +85,7 @@ const ApprovedKyc = () => {
         const doc = new jsPDF();
         const tableData = data?.map((row, index) => {
             return [
-                moment(row.createdAt).format("Do MMMM YYYY, h:mm:ss A"),
+                moment(row.createdAt).format("Do MMMM YYYY h:mm:ss A"),
                 // row._id,
                 `${row.first_name} ${row.last_name}`,
                 row.emailId,

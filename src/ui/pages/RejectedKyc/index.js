@@ -40,7 +40,7 @@ const RejectedKyc = () => {
     }
 
     const columns = [
-        { name: "Date",  wrap: true, selector: row => moment(row?.createdAt).format("Do MMMM YYYY , h:mm:ss A") },
+        { name: "Date",  wrap: true, selector: row => moment(row?.createdAt).format("Do MMMM YYYY h:mm:ss A") },
         // { name: "ID", wrap: true, selector: row => row._id, },
         // { name: "Name", wrap: true, selector: row => row?.first_name + " " + row.last_name },
         { name: "Email", wrap: true, selector: row => row.emailId, },

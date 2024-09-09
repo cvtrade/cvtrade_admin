@@ -31,7 +31,7 @@ const FundsPendingDeposit = () => {
     };
 
     const columns = [
-        { name: "Date", selector: row => moment(row?.createdAt).format("MMM Do YYYY"), wrap: true },
+        { name: "Date", selector: row => moment(row?.createdAt).format("MMM Do YYYY hh:mm A"), wrap: true },
         { name: "Chain", selector: row => row.chain, },
         { name: "Currency", wrap: true, selector: row => row.currency, },
         { name: "Email", wrap: true, selector: row => row.emailId, },

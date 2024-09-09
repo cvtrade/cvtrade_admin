@@ -25,7 +25,7 @@ const TradingCommision = () => {
 
   const columns = [
     { name: "Sr No.", wrap: true, selector: (row, index) => skip + 1 + index, },
-    { name: "Date", selector: row => moment(row?.createdAt).format("MMM Do YYYY"), wrap: true },
+    { name: "Date", selector: row => moment(row?.createdAt).format("MMM Do YYYY hh:mm AMMM Do YYYY"), wrap: true },
     { name: "Name", wrap: true, selector: row => row.short_name, },
     { name: "Fee", wrap: true, selector: row => row.fee, },
     { name: "Fee Type", wrap: true, selector: row => row.fee_type, },

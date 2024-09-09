@@ -12,7 +12,7 @@ const CoinlistFee = () => {
 
 
   const columns = [
-    { name: "Date", selector: row => moment(row?.createdAt).format("MMM Do YYYY"), },
+    { name: "Date", selector: row => moment(row?.createdAt).format("MMM Do YYYY hh:mm A"), },
     { name: "Name", wrap: true, selector: row => row.short_name, },
     { name: "Fee", selector: row => row.fee, },
     { name: "Fee Type", wrap: true, selector: row => row.fee_type, },

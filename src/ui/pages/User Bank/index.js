@@ -15,7 +15,7 @@ const UserBank = () => {
     const [slectedBankType, setSlectedBankType] = useState("Pending");
 
     const dateFilter = (row) => {
-        return <>{moment(row?.createdAt).format("Do MMMM YYYY")}</>;
+        return <>{moment(row?.createdAt).format("MMM Do YYYY hh:mm A")}</>;
     };
     const status = (row) => {
         return (

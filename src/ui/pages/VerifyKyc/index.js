@@ -252,7 +252,7 @@ const VerifyKyc = (props) => {
                           </label>
                           <div className="col-lg-7">
                             <span className="fw-bold fs-6 text-dark text-hover-primary">
-                              {moment(date).format("Do MMMM YYYY")}
+                              {moment(date).format("MMM Do YYYY hh:mm A")}
                             </span>
                           </div>
                         </div>
