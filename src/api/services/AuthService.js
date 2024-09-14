@@ -70,6 +70,20 @@ const AuthService = {
     return ApiCallGet(url, headers);
   },
 
+  withdrawalFees: async (skip, limit) => {
+    const token = sessionStorage.getItem("token");
+    const { baseUrl, withdrawalFees } = ApiConfig;
+    const url = baseUrl + withdrawalFees
+    const params={
+      skip, limit
+    }
+    const headers = {
+      "Content-Type": "application/json",
+      Authorization: token,
+    };
+    return ApiCallPost(url, params, headers);
+  },
+
   getdataverifylist: async () => {
     const token = sessionStorage.getItem("token");
     const { baseUrl, getverifyData } = ApiConfig;
@@ -1258,14 +1272,18 @@ const AuthService = {
     return ApiCallPost(url, params, headers);
   },
 
-  completeWithdrawalRequest: async () => {
+  completeWithdrawalRequest: async (skip, limit) => {
     const { baseUrl, completeWithdrawalRequest } = ApiConfig;
     const url = baseUrl + completeWithdrawalRequest
+    const params={
+      skip, limit
+    }
     const headers = {
       "Content-Type": "application/json",
     };
-    return ApiCallGet(url, headers);
+    return ApiCallPost(url, params, headers);
   },
+
   PendingWithdrwal: async () => {
     const { baseUrl, PendingWithdrwal } = ApiConfig;
     const url = baseUrl + PendingWithdrwal
@@ -1274,13 +1292,17 @@ const AuthService = {
     };
     return ApiCallGet(url, headers);
   },
-  CancelledWithdrwal: async () => {
+
+  CancelledWithdrwal: async (skip, limit) => {
     const { baseUrl, CancelledWithdrwal } = ApiConfig;
-    const url = baseUrl + CancelledWithdrwal
+    const url = baseUrl + CancelledWithdrwal;
+    const params={
+      skip, limit
+    }
     const headers = {
       "Content-Type": "application/json",
     };
-    return ApiCallGet(url, headers);
+    return ApiCallPost(url, params, headers);
   },
 
   completeDepositRequest: async () => {

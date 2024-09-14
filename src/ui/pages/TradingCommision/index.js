@@ -20,22 +20,22 @@ const TradingCommision = () => {
   };
 
   const pageCount = totalData / itemsPerPage
-  console.log("🚀 ~ TradingCommision ~ pageCount:", pageCount)
   const skip = (currentPage - 1) * itemsPerPage;
 
   const columns = [
     { name: "Sr No.", wrap: true, selector: (row, index) => skip + 1 + index, },
-    { name: "Date", selector: row => moment(row?.createdAt).format("MMM Do YYYY hh:mm AMMM Do YYYY"), wrap: true },
+    { name: "Date", selector: row => moment(row?.createdAt).format("MMM Do YYYY hh:mm "), wrap: true },
     { name: "Name", wrap: true, selector: row => row.short_name, },
     { name: "Fee", wrap: true, selector: row => row.fee, },
     { name: "Fee Type", wrap: true, selector: row => row.fee_type, },
     { name: "From User", wrap: true, selector: row => row.from_user, },
+    { name: "From Order", wrap: true, selector: row => row.fromOrder, },
     { name: "Percentage", wrap: true, selector: row => row.percentage, },
-    { name: "Amount", wrap: true, selector: row => row.amount, },
+    { name: "Disbursed Amount", width:"150px", wrap: true, selector: row => row.amount, },
   ];
 
   function handleSearch(e) {
-    const keysToSearch = ["short_name", "fee", "fee_type", "from_user", "percentage", "from_user", "amount"];
+    const keysToSearch = ["short_name", "fee", "fee_type", "from_user", "percentage", "fromOrder", "amount"];
     const searchTerm = e.target.value?.toLowerCase();
     const matchingObjects = allData?.filter(obj => { return keysToSearch.some(key => obj[key]?.toString()?.toLowerCase()?.includes(searchTerm)) });
     setTradingCommission(matchingObjects);

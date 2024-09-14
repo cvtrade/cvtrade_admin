@@ -110,6 +110,7 @@ export const ApiConfig = {
   tradingCommission: "trading-commission",
   tradeHistory: 'trade-history',
   OrderBook: 'orderbook',
+  withdrawalFees: 'withdrawal_fees',
   OpenOrders: 'all-open-orders',
   updateStatus: 'update_status',
   tradeById: 'find-trades-by-orderid',

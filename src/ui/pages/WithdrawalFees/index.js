@@ -5,38 +5,47 @@ import moment from "moment";
 import { CSVLink } from "react-csv";
 import LoaderHelper from "../../../customComponent/Loading/LoaderHelper";
 import DataTableBase from "../../../customComponent/DataTable";
+import ReactPaginate from "react-paginate";
 
 const WithdrawalFees = () => {
   const [withdrawalFees, setwithdrawalFees] = useState([]);
   const [allData, setallData] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(100);
+  const [totalData, setTotalData] = useState()
+
+
+  const handlePageChange = ({ selected }) => {
+    setCurrentPage(selected + 1);
+  };
+
+  const pageCount = totalData / itemsPerPage
+
+  const skip = (currentPage - 1) * itemsPerPage;
 
 
   const columns = [
-    { name: "Date", selector: row => moment(row?.createdAt).format("MMM Do YYYY hh:mm A"), },
+    { name: "Sr No.", wrap: true, selector: (row, index) => skip + 1 + index, },
+    { name: "Date",  wrap: true,selector: row => moment(row?.createdAt).format("MMM Do YYYY hh:mm A"), },
+    { name: "From User", wrap: true, selector: row => row.user_id, },
     { name: "Name", wrap: true, selector: row => row.short_name, },
-    { name: "Fee", selector: row => row.fee, },
-    { name: "Fee Type", wrap: true, selector: row => row.fee_type, },
-    { name: "From User", wrap: true, selector: row => row.from_user, },
-    { name: "Percentage", selector: row => row.percentage, },
-    { name: "Amount", selector: row => row.amount, },
+    { name: "Fee", wrap: true, selector: row => row.fee, },
+    { name: "Amount", wrap: true, selector: row => row.amount, },
   ];
 
 
   useEffect(() => {
-    // WithdrawalFees();
-  }, []);
+    WithdrawalFees(skip, 100);
+  }, [currentPage, skip]);
 
-  const WithdrawalFees = async () => {
+  const WithdrawalFees = async (skip, limit) => {
     LoaderHelper.loaderStatus(true);
-    await AuthService.withdrawalFees().then(async (result) => {
+    await AuthService.withdrawalFees(skip, limit).then(async (result) => {
       LoaderHelper.loaderStatus(false);
-      if (result.success) {
-        try {
-          setwithdrawalFees(result?.data?.reverse());
-          setallData(result?.data);
-        } catch (error) {
-          alertErrorMessage(error);
-        }
+      if (result?.success) {
+        setwithdrawalFees(result?.data?.list?.reverse());
+        setallData(result?.data?.list);
+        setTotalData(result?.totalCount)
       } else {
         LoaderHelper.loaderStatus(false);
         alertErrorMessage("Something Went Wrong");
@@ -162,8 +171,14 @@ const WithdrawalFees = () => {
               )}
             </div>
             <div className="table-responsive" width="100%">
-              <DataTableBase columns={columns} data={withdrawalFees} />
+              <DataTableBase columns={columns} data={withdrawalFees} pagination={false} />
             </div>
+            {totalData > 10 ? <ReactPaginate
+              pageCount={pageCount}
+              onPageChange={handlePageChange}
+              containerClassName={'customPagination'}
+              activeClassName={'active'}
+            /> : ""}
           </div>
         </div>
       </main>

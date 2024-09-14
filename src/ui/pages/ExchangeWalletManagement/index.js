@@ -45,7 +45,7 @@ const ExchangeWalletManagement = () => {
   };
 
   const columns = [
-    // { name: "User Id", selector: row => row.userId, },
+    { name: "User Id", wrap: true,  selector: row => row.userId, },
     { name: "Email Id", wrap: true, selector: row => row.emailId, },
     { name: "Coin Name", selector: row => row.short_name, },
     { name: "Available", selector: balanceFormatter, },

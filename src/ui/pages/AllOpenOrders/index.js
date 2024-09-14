@@ -11,7 +11,7 @@ const AllOpenOrders = () => {
     const [openOrderDetails, setOpenOrderDetails] = useState([])
     const [allData, setAllData] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
-    const [itemsPerPage, setItemsPerPage] = useState(10);
+    const [itemsPerPage, setItemsPerPage] = useState(100);
     const [totalData,setTotalData] = useState()
     const [dataToShow, setDataToShow] = useState([]);
 
@@ -52,6 +52,7 @@ const AllOpenOrders = () => {
 
    
     const columns = [
+        { name: "Sr No.", wrap: true, selector: (row, index) => 1 + index, },
         { name: "Date/Time", wrap: true, selector: row => moment(row?.updatedAt).format("DD/MM/YYYY h:mm:ss A"), },
         { name: "Order Id", wrap: true, selector: row => row._id, },
         { name: "User Email", wrap: true, selector: row => row.user_email, },

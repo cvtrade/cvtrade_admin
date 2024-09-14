@@ -85,6 +85,7 @@ const FundsPendingWithdrawal = () => {
     { name: "User Id", wrap: true, selector: row => row.user_id, },
     { name: <div style={{ whiteSpace: "revert" }}>Withdrawal Address</div>, wrap: true, selector: row => row.to_address, },
     { name: "Amount", wrap: true, selector: row => row.amount, },
+    { name: "Fee", wrap: true, selector: row => row.fee, },
     { name: "Status", grow: 1.5, selector: linkFollow, },
   ];
 

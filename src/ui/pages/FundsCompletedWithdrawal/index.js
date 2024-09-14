@@ -10,19 +10,19 @@ import ReactPaginate from "react-paginate";
 const FundsManagement = () => {
   const [fundWithdrawal, setFundWithdrawal] = useState([]);
   const [allData, setAllData] = useState([]);
-  // const [currentPage, setCurrentPage] = useState(1);
-  // const [itemsPerPage, setItemsPerPage] = useState(10);
-  // const [totalData,setTotalData] = useState()
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(100);
+  const [totalData,setTotalData] = useState()
 
 
-  // const handlePageChange = ({ selected }) => {
-  //     setCurrentPage(selected + 1);
-  // };
+  const handlePageChange = ({ selected }) => {
+      setCurrentPage(selected + 1);
+  };
 
 
-  // const pageCount = totalData/itemsPerPage
+  const pageCount = totalData/itemsPerPage
 
-  // const skip = (currentPage - 1) * itemsPerPage;
+  const skip = (currentPage - 1) * itemsPerPage;
 
 
   function statusFormatter(row) {
@@ -38,30 +38,30 @@ const FundsManagement = () => {
 }
 
   const columns = [
+    { name: "Sr No.", wrap: true, selector: (row, index) => skip + 1 + index, },
     { name: "Date", grow:2, selector: row => moment(row?.createdAt).format("MMM Do YYYY hh:mm A"), wrap: true },
-    { name: "Email Id", wrap: true, selector: row => row.emailId, },
-    { name: <div style={{whiteSpace:"revert"}}>Mobile Number</div>, selector: row => row?.mobileNumber, wrap: true },
+    { name: "User Id",wrap: true, selector: row => row.user_id, },
     { name: "Chain", selector: row => row.chain, },
     { name: "Coin Name", wrap: true, selector: row => row.short_name, },
-    { name: <div style={{whiteSpace:"revert"}}>Approved By</div>, selector: row => approvedByFormatter(row), wrap: true  },
     { name: <div style={{whiteSpace:"revert"}}>Withdrawal Address</div>, wrap: true, selector: row => row.to_address, },
     { name: <div style={{whiteSpace:"revert"}}>Transaction Hash</div>, wrap: true, selector: row => row.transaction_hash, },
     { name: "Amount", wrap: true, selector: row => row.amount, },
+    { name: "Fee", wrap: true, selector: row => row.fee, },
     { name: "Status", selector: statusFormatter, },
   ];
 
   useEffect(() => {
-    handleFundWithdrawal();
-  }, []);
+    handleFundWithdrawal(skip, 100);
+  }, [currentPage, skip]);
 
-  const handleFundWithdrawal = async () => {
+  const handleFundWithdrawal = async (skip, limit) => {
     LoaderHelper.loaderStatus(true);
-    await AuthService.completeWithdrawalRequest().then(async (result) => {
+    await AuthService.completeWithdrawalRequest(skip, limit).then(async (result) => {
       LoaderHelper.loaderStatus(false);
       if (result.success) {
         try {
           setFundWithdrawal(result.data);
-          // setTotalData(result?.totalCount)
+          setTotalData(result?.totalCount)
           setAllData(result.data);
         } catch (error) {
           alertErrorMessage(error);
@@ -119,14 +119,14 @@ const FundsManagement = () => {
             </div>
             <div className="card-body mt-3">
               <div className="table-responsive" width="100%">
-                <DataTableBase columns={columns} data={fundWithdrawal} />
+                <DataTableBase columns={columns} data={fundWithdrawal}  pagination={false}/>
               </div>
-              {/* {totalData > 5 ? <ReactPaginate
+              {totalData > 5 ? <ReactPaginate
                             pageCount={pageCount}
                             onPageChange={handlePageChange}
                             containerClassName={'customPagination'}
                             activeClassName={'active'}
-                        /> : ""} */}
+                        /> : ""}
             </div>
 
           </div>

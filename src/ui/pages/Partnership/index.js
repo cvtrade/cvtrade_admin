@@ -16,8 +16,8 @@ const Partnership = () => {
         return (
             <div>
                      {row?.status === 'pending' ? <>
-                    <button className="btn btn-success btn-sm me-2" onClick={() => { handleStatus(row?.PartnershipId, 'approved') }}>Approve</button>
-                    <button className="btn btn-danger btn-sm me-2" onClick={() => { handleStatus(row?.PartnershipId, 'rejected') }} >Reject</button> </>
+                    <button className="btn btn-success btn-sm me-2" onClick={() => { handleStatus(row?._id, 'approved') }}>Approve</button>
+                    <button className="btn btn-danger btn-sm me-2" onClick={() => { handleStatus(row?._id, 'rejected') }} >Reject</button> </>
                     : row?.status}
             </div>
         );

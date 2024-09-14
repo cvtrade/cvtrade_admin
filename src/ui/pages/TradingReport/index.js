@@ -11,21 +11,9 @@ const TradingReport = () => {
     const [tradingReport, setTradingReport] = useState([]);
     const [allData, setAllData] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
-    const [itemsPerPage, setItemsPerPage] = useState(10);
+    const [itemsPerPage, setItemsPerPage] = useState(100);
     const [totalData,setTotalData] = useState()
-    // const [dataToShow, setDataToShow] = useState([]);
 
-    // let startIndex;
-    // let endIndex;
-
-    // useEffect(() => {
-    //      startIndex = (currentPage-1) * itemsPerPage;
-    //      endIndex = Math.min(startIndex + itemsPerPage, tradingReport.length);
-    //     const newDataToShow = tradingReport.slice(startIndex, endIndex);  
-    //     setDataToShow(newDataToShow);
-    //   }, [currentPage, itemsPerPage, tradingReport]);
-
-   
 
     const handlePageChange = ({ selected }) => {
         setCurrentPage(selected + 1);
@@ -33,17 +21,12 @@ const TradingReport = () => {
 
     const pageCount = totalData/itemsPerPage
 
-    // const handleItemsPerPageChange = (e) => { 
-    //     const newItemsPerPage = parseInt(e.target.value);
-    //     setItemsPerPage(newItemsPerPage);
-    //     setCurrentPage(1); 
-    // };
-
     const skip = (currentPage - 1) * itemsPerPage;
 
    
 
     const columns = [
+        { name: "Sr No.", wrap: true, selector: (row, index) => skip + 1 + index, },
         { name: "Date/Time",wrap: true,  selector: row => moment(row?.updatedAt).format("DD/MM/YYYY, h:mm:ss A"), },
         { name: "Order Id", wrap: true, selector: row => row?.order_id },
         { name: "User Email", wrap: true, selector: row => row?.user_email, },
@@ -124,20 +107,12 @@ const TradingReport = () => {
                         <div className="table-responsive" width="100%">
                             <DataTableBase columns={columns} data={tradingReport} pagination={false} />
                         </div>
-                        {/* <div className="d-flex justify-content-between">
-                        {totalData > 10 && <select value={itemsPerPage} onChange={handleItemsPerPageChange} style={{ padding: "10px", border: "1px solid #ccc", borderRadius: "4px", width:"70px", marginTop:"20px", marginLeft:"20px", height:"fit-content", color: "#333"}}>
-                            <option value={10}>10</option>
-                            <option value={50}>50</option>
-                            <option value={100}>100</option>
-                        </select>} */}
                         {totalData > 10 ? <ReactPaginate
                             pageCount={pageCount}
                             onPageChange={handlePageChange}
                             containerClassName={'customPagination'}
                             activeClassName={'active'}
-                            // forcePage={currentPage - 1}
                         /> : ""}
-                        {/* </div> */}
                     </div>
                 </div>
             </main>

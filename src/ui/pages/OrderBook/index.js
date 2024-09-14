@@ -11,7 +11,7 @@ const OrderBook = () => {
     const [orderBookDetails, setorderBookDetails] = useState([]);
     const [allData, setAllData] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
-    const [itemsPerPage, setItemsPerPage] = useState(10);
+    const [itemsPerPage, setItemsPerPage] = useState(100);
     const [totalData, setTotalData] = useState()
     // const [dataToShow, setDataToShow] = useState([]);
 
@@ -67,6 +67,7 @@ const OrderBook = () => {
         })
     }
     const columns = [
+        { name: "Sr No.", wrap: true, selector: (row, index) => skip + 1 + index, },
         { name: "Date/Time", wrap: true, selector: row => moment(row?.updatedAt).format("DD/MM/YYYY h:mm:ss A"), },
         { name: "Order Id", wrap: true, selector: row => row._id, },
         { name: "User Email", wrap: true, selector: row => row.user_email, },
@@ -108,7 +109,7 @@ const OrderBook = () => {
         });
     };
     function handleSearch(e) {
-        const keysToSearch = ["_id", "user_id", "main_currency", "order_type", "status", "side", , "user_mobileNumber", "user_email"];
+        const keysToSearch = ["_id", "user_id", "main_currency", "order_type", "status", "side",  "user_mobileNumber", "user_email"];
         const searchTerm = e.target.value?.toLowerCase();
         const matchingObjects = allData?.filter(obj => { return keysToSearch.some(key => obj[key]?.toString()?.toLowerCase()?.includes(searchTerm)) });
         setorderBookDetails(matchingObjects);
