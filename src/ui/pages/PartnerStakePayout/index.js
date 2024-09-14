@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from "react";
 import AuthService from "../../../api/services/AuthService";
 import { alertErrorMessage, alertSuccessMessage } from "../../../customComponent/CustomAlertMessage";
@@ -6,22 +7,11 @@ import LoaderHelper from "../../../customComponent/Loading/LoaderHelper";
 import DataTableBase from "../../../customComponent/DataTable";
 import { ApiConfig } from "../../../api/apiConfig/ApiConfig";
 
-const Partnership = () => {
+const PartnerStakePayout = () => {
     const [partnersList, setPartnersList] = useState([]);
     const [allData, setAllData] = useState([]);
 
 
-
-    const statuslinkFollow = (row) => {
-        return (
-            <div>
-                {row?.admin_apporval === 'PENDING' ? <>
-                    <button className="btn btn-success btn-sm me-2" onClick={() => { handleStatus(row?._id, 'APPROVED') }}>Approve</button>
-                    <button className="btn btn-danger btn-sm me-2" onClick={() => { handleStatus(row?._id, 'REJECTED') }} >Reject</button> </>
-                    : <span className={`text-${row?.admin_apporval === "APPROVED" ? "success" : "danger"}`}> {row?.admin_apporval} </span>}
-            </div>
-        );
-    };
 
     function imageFormatter(row) {
         return (
@@ -32,21 +22,18 @@ const Partnership = () => {
 
     const columns = [
         { name: 'Sr no.', selector: (row, index) => index + 1, wrap: true },
-        { name: 'Registration Date', width: "140px", sort: true, selector: row => moment(row?.createdAt).format('MMMM Do YYYY'), wrap: true },
-        { name: 'Name', selector: row => row?.userName, wrap: true },
-        { name: 'Email', width: "100px", sort: true, wrap: true, selector: row => row?.email },
-        { name: 'Partnership Id', width: "120px", sort: true, wrap: true, selector: row => row?.PartnershipId },
-        { name: 'Transaction Id', width: "120px", sort: true, wrap: true, selector: row => row?.transactionId },
-        { name: 'Reffered By', width: "120px", sort: true, wrap: true, selector: row => row?.reffered_by || "---" },
-        { name: 'Mobile Number', width: "120px", selector: row => row?.phoneNumber, wrap: true },
-        { name: "Image", selector: imageFormatter, },
-        { name: 'Status', sort: true, selector: row => row?.status, },
-        { name: 'Action', width: "200px", selector: statuslinkFollow, wrap: true, grow: 1.5 },
+        { name: 'Partner Id', width: "120px", sort: true, wrap: true, selector: row => row?.PartnerId },
+        { name: 'Deposited Amount', selector: row => row?.deposited_amount, wrap: true },
+        { name: 'Commission', selector: row => row?.commission_on_deposited_amount, wrap: true },
+        { name: 'Month Payout', width: "110px", sort: true, wrap: true, selector: row => row?.month_payout_amount },
+        { name: 'Total Distributed', width: "130px", sort: true, wrap: true, selector: row => row?.total_distributed },
+        { name: 'Payout Count', width: "130px", sort: true, wrap: true, selector: row => row?.count },
+
 
     ];
 
     function searchObjects(e) {
-        const keysToSearch = ["userName", "email", "phoneNumber","PartnershipId", "transactionId", "reffered_by"];
+        const keysToSearch = ["PartnerId", "deposited_amount", "commission_on_deposited_amount","month_payout_amount", "total_distributed", "count"];
         const userInput = e.target.value;
         const searchTerm = userInput?.toLowerCase();
         const matchingObjects = allData.filter(obj => {
@@ -55,16 +42,6 @@ const Partnership = () => {
         setPartnersList(matchingObjects);
     };
 
-    const handleStatus = async (userId, status) => {
-        await AuthService.PartnersStatus(userId, status).then(async result => {
-            if (result.success) {
-                alertSuccessMessage(result.message);
-                handlePartners();
-            } else {
-                alertErrorMessage(result.message)
-            }
-        })
-    }
 
     useEffect(() => {
         handlePartners()
@@ -72,7 +49,7 @@ const Partnership = () => {
 
     const handlePartners = async () => {
         LoaderHelper.loaderStatus(true);
-        await AuthService.getPartnersList().then(async result => {
+        await AuthService.partner_deposit_payouts_list().then(async result => {
             if (result.success) {
                 LoaderHelper.loaderStatus(false);
                 try {
@@ -98,7 +75,7 @@ const Partnership = () => {
                                     <div className="col-auto mt-4">
                                         <h1 className="page-header-title">
                                             <div className="page-header-icon"><i className="far fa-user"></i></div>
-                                            Partners List
+                                            Partners Stake
                                         </h1>
                                     </div>
                                 </div>
@@ -127,4 +104,4 @@ const Partnership = () => {
     )
 }
 
-export default Partnership;
+export default PartnerStakePayout;

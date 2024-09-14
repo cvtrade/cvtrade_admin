@@ -42,6 +42,9 @@ import P2PCommission from "../ui/pages/P2PCommission";
 import UserWalletBal from "../ui/pages/UserWalletBal";
 import UserBank from "../ui/pages/User Bank";
 import UserUPI from "../ui/pages/User Upi";
+import PartnershipWithdrawal from "../ui/pages/PartnerWithdrawal";
+import PartnerStakePayout from "../ui/pages/PartnerStakePayout";
+import PartnerComission from "../ui/pages/PartnerComission";
 
 const Routing = () => {
     const [actived, setActived] = useState('')
@@ -93,6 +96,9 @@ const Routing = () => {
                             <Route exect path="UserBank" element={<UserBank />}></Route>
                             <Route exect path="UserUPI" element={<UserUPI />}></Route>
                             <Route exect path="user_wallet_balance" element={<UserWalletBal />}></Route>
+                            <Route exect path="PartnershipWithdrawal" element={<PartnershipWithdrawal />}></Route>
+                            <Route exect path="PartnerStakePayout" element={<PartnerStakePayout />}></Route>
+                            <Route exect path="PartnerComission" element={<PartnerComission />}></Route>
 
                         </Route>
 

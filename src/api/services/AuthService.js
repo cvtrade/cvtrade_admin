@@ -74,7 +74,7 @@ const AuthService = {
     const token = sessionStorage.getItem("token");
     const { baseUrl, withdrawalFees } = ApiConfig;
     const url = baseUrl + withdrawalFees
-    const params={
+    const params = {
       skip, limit
     }
     const headers = {
@@ -200,11 +200,11 @@ const AuthService = {
     return ApiCallGet(url, headers);
   },
 
-  addCurrency: async (currency_short_name,type) => {
+  addCurrency: async (currency_short_name, type) => {
     const token = sessionStorage.getItem("token");
     const { baseAdmin, add_fiat } = ApiConfig;
     const url = baseAdmin + add_fiat;
-    const params = {currency_short_name,type}
+    const params = { currency_short_name, type }
 
     const headers = {
       "Content-Type": "application/json",
@@ -213,11 +213,11 @@ const AuthService = {
     return ApiCallPost(url, params, headers);
   },
 
-  remove_currency: async (currency_short_name,type) => {
+  remove_currency: async (currency_short_name, type) => {
     const token = sessionStorage.getItem("token");
     const { baseAdmin, remove_currency } = ApiConfig;
     const url = baseAdmin + remove_currency;
-    const params = {currency_short_name,type}
+    const params = { currency_short_name, type }
 
     const headers = {
       "Content-Type": "application/json",
@@ -821,19 +821,19 @@ const AuthService = {
     return ApiCallGet(url, headers);
   },
 
-  PartnersStatus: async (userId, cell) => {
+  PartnersStatus: async (userId, status) => {
     const token = sessionStorage.getItem("token");
-    const { baseUser, PartnersStatus } = ApiConfig;
-    const url = baseUser + PartnersStatus;
+    const { baseUrl, PartnersStatus } = ApiConfig;
+    const url = baseUrl + PartnersStatus;
     const params = {
-      partnershipId: userId,
-      status: cell,
+      partner_id: userId,
+      admin_apporval: status,
     };
     const headers = {
       "Content-Type": "application/json",
       Authorization: token,
     };
-    return ApiCallPut(url, params, headers);
+    return ApiCallPost(url, params, headers);
   },
 
   OpenOrderStatus: async (id) => {
@@ -1076,7 +1076,7 @@ const AuthService = {
     const url = baseUrl + tradingCommission;
 
     const params = {
-      skip:skip,
+      skip: skip,
       limit: limit
     }
 
@@ -1275,7 +1275,7 @@ const AuthService = {
   completeWithdrawalRequest: async (skip, limit) => {
     const { baseUrl, completeWithdrawalRequest } = ApiConfig;
     const url = baseUrl + completeWithdrawalRequest
-    const params={
+    const params = {
       skip, limit
     }
     const headers = {
@@ -1296,7 +1296,7 @@ const AuthService = {
   CancelledWithdrwal: async (skip, limit) => {
     const { baseUrl, CancelledWithdrwal } = ApiConfig;
     const url = baseUrl + CancelledWithdrwal;
-    const params={
+    const params = {
       skip, limit
     }
     const headers = {
@@ -1540,11 +1540,73 @@ const AuthService = {
     return ApiCallGet(url, headers);
   },
 
-  
+
   pendingUPIDetails: async () => {
     const token = sessionStorage.getItem("token");
     const { baseAdmin, pendingUPIDetails } = ApiConfig;
     const url = baseAdmin + pendingUPIDetails;
+
+    const headers = {
+      "Content-Type": "application/json",
+      Authorization: token,
+    };
+    return ApiCallGet(url, headers);
+  },
+
+  partnerWithdrawalRequests: async () => {
+    const token = sessionStorage.getItem("token");
+    const { baseAdmin, partnerWithdrawalRequests } = ApiConfig;
+    const url = baseAdmin + partnerWithdrawalRequests;
+
+    const headers = {
+      "Content-Type": "application/json",
+      Authorization: token,
+    };
+    return ApiCallGet(url, headers);
+  },
+
+  partner_update_withdrawal_status: async (_id, status, transaction_hash) => {
+    const token = sessionStorage.getItem("token");
+    const { baseAdmin, partner_update_withdrawal_status } = ApiConfig;
+    const url = baseAdmin + partner_update_withdrawal_status;
+    const params = {
+      _id, status, transaction_hash
+    };
+    const headers = {
+      "Content-Type": "application/json",
+      Authorization: token,
+    };
+    return ApiCallPost(url, params, headers);
+  },
+
+  pairPrice: async () => {
+    const token = sessionStorage.getItem("token");
+    const { basePartner, pairPrice } = ApiConfig;
+    const url = basePartner + pairPrice;
+
+    const headers = {
+      "Content-Type": "application/json",
+      Authorization: token,
+    };
+    return ApiCallGet(url, headers);
+  },
+
+  partner_deposit_payouts_list: async () => {
+    const token = sessionStorage.getItem("token");
+    const { baseUrl, partner_deposit_payouts_list } = ApiConfig;
+    const url = baseUrl + partner_deposit_payouts_list;
+
+    const headers = {
+      "Content-Type": "application/json",
+      Authorization: token,
+    };
+    return ApiCallGet(url, headers);
+  },
+
+  partner_monthly_payouts_list: async () => {
+    const token = sessionStorage.getItem("token");
+    const { baseUrl, partner_monthly_payouts_list } = ApiConfig;
+    const url = baseUrl + partner_monthly_payouts_list;
 
     const headers = {
       "Content-Type": "application/json",

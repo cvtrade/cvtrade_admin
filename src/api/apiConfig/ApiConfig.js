@@ -37,7 +37,7 @@ export const ApiConfig = {
   todayNewRegistrations: "today_new_registration",
   createCategory: "create-coin-category",
   SubadminStatus: "admin_status",
-  PartnersStatus: "setStatusPartnership",
+  PartnersStatus: "update-partner-status",
   OpenOrderStatus: "delete-single-open-order",
   CoinDetailsStatus: "setcoindetailstatus ",
   updateSubadmin: "edit_subadmin",
@@ -142,6 +142,12 @@ export const ApiConfig = {
   verifyUPIDetails: "verify-upi-details",
   statusToSettle: "statusToSettle",
 
+  // Partner
+  partnerWithdrawalRequests:"partner_withdrawal_requests",
+  partner_update_withdrawal_status:"partner_update_withdrawal_status",
+  pairPrice: "cvt_usdt_price",
+  partner_deposit_payouts_list: "partner_deposit_payouts_list",
+  partner_monthly_payouts_list: "partner_monthly_payouts_list",
   // ============URLs================
   baseHelp: `${appUrl}/help/`,
   baseTran: `${appUrl}/v1/transaction/`,
@@ -157,6 +163,7 @@ export const ApiConfig = {
   baseUser: `${appUrl}/v1/user/`,
   baseSupport: `${appUrl}/v1/support/`,
   baseP2P: `${appUrl}/v1/p2p/`,
+  basePartner: `${appUrl}/v1/partnerShip/`,
   uploadcurrency: `${appUrl}/`,
   appUrl: `${appUrl}/`,
 };

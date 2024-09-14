@@ -6,47 +6,37 @@ import LoaderHelper from "../../../customComponent/Loading/LoaderHelper";
 import DataTableBase from "../../../customComponent/DataTable";
 import { ApiConfig } from "../../../api/apiConfig/ApiConfig";
 
-const Partnership = () => {
+const PartnershipWithdrawal = () => {
     const [partnersList, setPartnersList] = useState([]);
     const [allData, setAllData] = useState([]);
-
+    const [pairPrice, setPairPrice] = useState(0);
 
 
     const statuslinkFollow = (row) => {
         return (
             <div>
-                {row?.admin_apporval === 'PENDING' ? <>
-                    <button className="btn btn-success btn-sm me-2" onClick={() => { handleStatus(row?._id, 'APPROVED') }}>Approve</button>
+                {row?.status === 'PENDING' ? <>
+                    <button className="btn btn-success btn-sm me-2" onClick={() => { handleFundTransfer("CVT", "BEP20", row?.to_address, (row?.amount / pairPrice)?.toFixed(4) , " ", row?._id) }}>Approve</button>
                     <button className="btn btn-danger btn-sm me-2" onClick={() => { handleStatus(row?._id, 'REJECTED') }} >Reject</button> </>
-                    : <span className={`text-${row?.admin_apporval === "APPROVED" ? "success" : "danger"}`}> {row?.admin_apporval} </span>}
+                    : <span className={`text-${row?.status === "APPROVED" ? "success" : "danger"}`}> {row?.status} </span>}
             </div>
-        );
-    };
-
-    function imageFormatter(row) {
-        return (
-            <a href={ApiConfig?.appUrl + row?.transactionImage} target="_blank" rel="noreferrer"  > <img style={{ width: "40%", height: "auto" }} className="table-img" src={ApiConfig?.appUrl + row?.transactionImage} alt="images" /></a>
         );
     };
 
 
     const columns = [
         { name: 'Sr no.', selector: (row, index) => index + 1, wrap: true },
-        { name: 'Registration Date', width: "140px", sort: true, selector: row => moment(row?.createdAt).format('MMMM Do YYYY'), wrap: true },
-        { name: 'Name', selector: row => row?.userName, wrap: true },
-        { name: 'Email', width: "100px", sort: true, wrap: true, selector: row => row?.email },
-        { name: 'Partnership Id', width: "120px", sort: true, wrap: true, selector: row => row?.PartnershipId },
-        { name: 'Transaction Id', width: "120px", sort: true, wrap: true, selector: row => row?.transactionId },
-        { name: 'Reffered By', width: "120px", sort: true, wrap: true, selector: row => row?.reffered_by || "---" },
-        { name: 'Mobile Number', width: "120px", selector: row => row?.phoneNumber, wrap: true },
-        { name: "Image", selector: imageFormatter, },
-        { name: 'Status', sort: true, selector: row => row?.status, },
+        { name: 'Date', width: "140px", sort: true, selector: row => moment(row?.createdAt).format('MMMM Do YYYY'), wrap: true },
+        { name: 'Partner Id', selector: row => row?.partner_id, wrap: true },
+        { name: 'Amount (CVT)', width: "120px", sort: true, wrap: true, selector: row => (row?.amount / pairPrice)?.toFixed(4) },
+        { name: 'Chain', width: "120px", sort: true, wrap: true, selector: row => row?.chain },
+        { name: 'Address', width: "120px", sort: true, wrap: true, selector: row => row?.to_address },
         { name: 'Action', width: "200px", selector: statuslinkFollow, wrap: true, grow: 1.5 },
 
     ];
 
     function searchObjects(e) {
-        const keysToSearch = ["userName", "email", "phoneNumber","PartnershipId", "transactionId", "reffered_by"];
+        const keysToSearch = ["partner_id", "amount",];
         const userInput = e.target.value;
         const searchTerm = userInput?.toLowerCase();
         const matchingObjects = allData.filter(obj => {
@@ -55,12 +45,30 @@ const Partnership = () => {
         setPartnersList(matchingObjects);
     };
 
-    const handleStatus = async (userId, status) => {
-        await AuthService.PartnersStatus(userId, status).then(async result => {
+    const handleFundTransfer = async (tokenName, chain, receiver, amount, email, id) => {
+        LoaderHelper.loaderStatus(true)
+        await AuthService.fundTransfer(tokenName, chain, receiver, amount, email).then(async result => {
+            LoaderHelper.loaderStatus(false)
+            if (result?.success) {
+                alertSuccessMessage(result?.message)
+                if (result?.data?.transaction_hash) {
+                    handleStatus(id, 'APPROVED', result?.data?.transaction_hash)
+                }
+            } else {
+                alertErrorMessage(result?.message)
+            }
+        })
+    };
+
+    const handleStatus = async (userId, status, transaction_hash) => {
+        LoaderHelper.loaderStatus(true)
+        await AuthService.partner_update_withdrawal_status(userId, status, transaction_hash).then(async result => {
+            LoaderHelper.loaderStatus(false)
             if (result.success) {
                 alertSuccessMessage(result.message);
                 handlePartners();
             } else {
+                LoaderHelper.loaderStatus(false)
                 alertErrorMessage(result.message)
             }
         })
@@ -68,11 +76,12 @@ const Partnership = () => {
 
     useEffect(() => {
         handlePartners()
+        getPairPrice()
     }, []);
 
     const handlePartners = async () => {
         LoaderHelper.loaderStatus(true);
-        await AuthService.getPartnersList().then(async result => {
+        await AuthService.partnerWithdrawalRequests().then(async result => {
             if (result.success) {
                 LoaderHelper.loaderStatus(false);
                 try {
@@ -81,6 +90,19 @@ const Partnership = () => {
                 } catch (error) {
                     alertErrorMessage(error);
                 }
+            } else {
+                LoaderHelper.loaderStatus(false);
+            }
+        });
+    }
+
+    const getPairPrice = async () => {
+        LoaderHelper.loaderStatus(true);
+        await AuthService.pairPrice().then(async result => {
+            if (result.success) {
+                LoaderHelper.loaderStatus(false);
+                setPairPrice(result?.data?.buy_price || 0);
+
             } else {
                 LoaderHelper.loaderStatus(false);
             }
@@ -127,4 +149,4 @@ const Partnership = () => {
     )
 }
 
-export default Partnership;
+export default PartnershipWithdrawal;
