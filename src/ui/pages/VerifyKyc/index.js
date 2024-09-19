@@ -69,7 +69,7 @@ const VerifyKyc = (props) => {
           alertErrorMessage("Unauthorized");
         }
       } else {
-        alertErrorMessage(result.message);
+        // alertErrorMessage(result.message);
       }
     });
   };
@@ -452,7 +452,7 @@ const VerifyKyc = (props) => {
       {/* Image Detail */}
       <div
         className="modal image_modal"
-        id="edit_modal"
+        id="image_modal"
         tabindex="-1"
         role="dialog"
         aria-labelledby="exampleModalCenterTitle"

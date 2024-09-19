@@ -80,7 +80,6 @@ const PendingKyc = () => {
           // setTotalData(result?.totalCount)
           setAllData(result.data);
         } catch (error) {
-          alertErrorMessage(error);
         }
       } else {
         LoaderHelper.loaderStatus(false);
