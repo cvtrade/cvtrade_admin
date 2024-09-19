@@ -39,7 +39,7 @@ const FundsManagement = () => {
 
   const columns = [
     { name: "Sr No.", wrap: true, selector: (row, index) => skip + 1 + index, },
-    { name: "Date", grow:2, selector: row => moment(row?.createdAt).format("MMM Do YYYY hh:mm A"), wrap: true },
+    { name: "Date", grow:2, selector: row => moment(row?.updatedAt).format("MMM Do YYYY hh:mm A"), wrap: true },
     { name: "User Id",wrap: true, selector: row => row.user_id, },
     { name: "Chain", selector: row => row.chain, },
     { name: "Coin Name", wrap: true, selector: row => row.short_name, },
@@ -50,9 +50,12 @@ const FundsManagement = () => {
     { name: "Status", selector: statusFormatter, },
   ];
 
+  // useEffect(() => {
+  //   handleFundWithdrawal(skip, 100);
+  // }, [currentPage, skip]);
   useEffect(() => {
     handleFundWithdrawal(skip, 100);
-  }, [currentPage, skip]);
+  }, []);
 
   const handleFundWithdrawal = async (skip, limit) => {
     LoaderHelper.loaderStatus(true);
@@ -119,14 +122,14 @@ const FundsManagement = () => {
             </div>
             <div className="card-body mt-3">
               <div className="table-responsive" width="100%">
-                <DataTableBase columns={columns} data={fundWithdrawal}  pagination={false}/>
+                <DataTableBase columns={columns} data={fundWithdrawal}  pagination={true}/>
               </div>
-              {totalData > 5 ? <ReactPaginate
+              {/* {totalData > 5 ? <ReactPaginate
                             pageCount={pageCount}
                             onPageChange={handlePageChange}
                             containerClassName={'customPagination'}
                             activeClassName={'active'}
-                        /> : ""}
+                        /> : ""} */}
             </div>
 
           </div>

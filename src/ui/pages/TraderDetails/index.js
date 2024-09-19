@@ -80,7 +80,7 @@ const TraderDetails = (props) => {
                 } catch (error) {
                 }
             } else {
-                alertErrorMessage('No Data Found')
+                // alertErrorMessage('No Data Found')
             }
         })
     }
