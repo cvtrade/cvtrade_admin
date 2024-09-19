@@ -36,7 +36,7 @@ const WithdrawalFees = () => {
 
   useEffect(() => {
     WithdrawalFees(skip, 100);
-  }, [currentPage, skip]);
+  }, []);
 
   const WithdrawalFees = async (skip, limit) => {
     LoaderHelper.loaderStatus(true);
@@ -171,14 +171,9 @@ const WithdrawalFees = () => {
               )}
             </div>
             <div className="table-responsive" width="100%">
-              <DataTableBase columns={columns} data={withdrawalFees} pagination={false} />
+              <DataTableBase columns={columns} data={withdrawalFees} pagination={true} />
             </div>
-            {totalData > 10 ? <ReactPaginate
-              pageCount={pageCount}
-              onPageChange={handlePageChange}
-              containerClassName={'customPagination'}
-              activeClassName={'active'}
-            /> : ""}
+
           </div>
         </div>
       </main>
