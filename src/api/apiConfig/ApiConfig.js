@@ -1,5 +1,5 @@
-const appUrl = "http://localhost:4003";
-// const appUrl = "https://backend.cvtrade.io";
+// const appUrl = "http://localhost:4003";
+const appUrl = "https://backend.cvtrade.io";
 // const appUrl = "http://192.168.1.19:4003";
 
 export const ApiConfig = {
