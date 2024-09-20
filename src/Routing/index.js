@@ -45,6 +45,7 @@ import UserUPI from "../ui/pages/User Upi";
 import PartnershipWithdrawal from "../ui/pages/PartnerWithdrawal";
 import PartnerStakePayout from "../ui/pages/PartnerStakePayout";
 import PartnerComission from "../ui/pages/PartnerComission";
+import AddPartner from "../ui/pages/AddPartner";
 
 const Routing = () => {
     const [actived, setActived] = useState('')
@@ -99,6 +100,7 @@ const Routing = () => {
                             <Route exect path="PartnershipWithdrawal" element={<PartnershipWithdrawal />}></Route>
                             <Route exect path="PartnerStakePayout" element={<PartnerStakePayout />}></Route>
                             <Route exect path="PartnerComission" element={<PartnerComission />}></Route>
+                            <Route exect path="AddPartner" element={<AddPartner />}></Route>
 
                         </Route>
 

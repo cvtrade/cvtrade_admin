@@ -1579,6 +1579,18 @@ const AuthService = {
     return ApiCallPost(url, params, headers);
   },
 
+  createPartner: async (formData) => {
+    const token = sessionStorage.getItem("token");
+    const { baseAdmin, createPartner } = ApiConfig;
+    const url = baseAdmin + createPartner;
+
+    const headers = {
+      "Content-Type": "multipart/form-data",
+      Authorization: token,
+    };
+    return ApiCallPost(url, formData, headers);
+  },
+
   pairPrice: async () => {
     const token = sessionStorage.getItem("token");
     const { basePartner, pairPrice } = ApiConfig;
@@ -1963,6 +1975,14 @@ const AuthService = {
       "content-Type": "application/json",
     };
     return ApiCallPost(url, params, headers);
+  },
+
+  getReferredUserData: async (code) => {
+    const url = `https://cvtoken.us/stake/api/user-data/${code}`
+    const headers = {
+      "Content-Type": "application/json",
+    };
+    return ApiCallGet(url, headers);
   },
 
 

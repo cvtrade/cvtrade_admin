@@ -1,5 +1,5 @@
-// const appUrl = "http://localhost:4003";
-const appUrl = "https://backend.cvtrade.io";
+const appUrl = "http://localhost:4003";
+// const appUrl = "https://backend.cvtrade.io";
 // const appUrl = "http://192.168.1.19:4003";
 
 export const ApiConfig = {
@@ -148,6 +148,7 @@ export const ApiConfig = {
   pairPrice: "cvt_usdt_price",
   partner_deposit_payouts_list: "partner_deposit_payouts_list",
   partner_monthly_payouts_list: "partner_monthly_payouts_list",
+  createPartner: "create-partner-by-admin",
   // ============URLs================
   baseHelp: `${appUrl}/help/`,
   baseTran: `${appUrl}/v1/transaction/`,

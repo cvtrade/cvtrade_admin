@@ -139,6 +139,10 @@ const DashboardPage = () => {
                                         <div className="collapse" id="collapsePartner" data-bs-parent="#accordionSidenav">
                                             <nav className="sidenav-menu-nested nav">
 
+                                                <Link className={`nav-link collapsed ${actived?.includes('AddPartner') ? 'active' : ''}`} to="AddPartner" onClick={() => { setActived('AddPartner'); setIsSidebar(true); }}>
+                                                    <div className="nav-link-icon"><i className="fa fa-user-friends"></i></div>
+                                                    Add Partner
+                                                </Link>
                                                 <Link className={`nav-link collapsed ${actived?.includes('partnership') ? 'active' : ''}`} to="partnership" onClick={() => { setActived('partnership'); setIsSidebar(true); }}>
                                                     <div className="nav-link-icon"><i className="fa fa-user-friends"></i></div>
                                                     Partners List
