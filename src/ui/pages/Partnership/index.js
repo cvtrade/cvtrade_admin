@@ -36,7 +36,7 @@ const Partnership = () => {
         { name: 'Name', selector: row => row?.userName, wrap: true },
         { name: 'Email', width: "100px", sort: true, wrap: true, selector: row => row?.email },
         { name: 'Partnership Id', width: "120px", sort: true, wrap: true, selector: row => row?.PartnershipId },
-        { name: 'Transaction Id', width: "120px", sort: true, wrap: true, selector: row => row?.transactionId },
+        { name: 'Transaction Id', width: "120px", sort: true, wrap: true, selector: row => <a href={`https://bscscan.com/tx/${row?.transactionId}`} target="_blank" rel="noreferrer">{row?.transactionId} </a> },
         { name: 'Reffered By', width: "120px", sort: true, wrap: true, selector: row => row?.reffered_by || "---" },
         { name: 'Mobile Number', width: "120px", selector: row => row?.phoneNumber, wrap: true },
         { name: "Image", selector: imageFormatter, },
@@ -46,7 +46,7 @@ const Partnership = () => {
     ];
 
     function searchObjects(e) {
-        const keysToSearch = ["userName", "email", "phoneNumber","PartnershipId", "transactionId", "reffered_by"];
+        const keysToSearch = ["userName", "email", "phoneNumber", "PartnershipId", "transactionId", "reffered_by"];
         const userInput = e.target.value;
         const searchTerm = userInput?.toLowerCase();
         const matchingObjects = allData.filter(obj => {
