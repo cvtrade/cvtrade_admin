@@ -1844,6 +1844,18 @@ const AuthService = {
     return ApiCallPost(url, params, headers);
   },
 
+  qbshistory: async () => {
+    const token = sessionStorage.getItem("token")
+    const { baseUrl, qbshistory } = ApiConfig;
+    const url = baseUrl + qbshistory;
+    const headers = {
+      "Content-Type": "application/json",
+      Authorization: token,
+    };
+
+    return ApiCallGet(url, headers);
+  },
+
   getMyActivityLogs: async () => {
     const token = sessionStorage.getItem("token")
     const { baseUser, getMyLogs } = ApiConfig;

@@ -243,6 +243,8 @@ const DashboardPage = () => {
 
                                                 <Link className={`nav-link  ${actived?.includes('WithdrawalFees') ? 'active' : ''}`} to="WithdrawalFees" onClick={() => setActived('WithdrawalFees')}> Withdrawal Fees</Link>
 
+                                                <Link className={`nav-link  ${actived?.includes('QuickBuySellCommission') ? 'active' : ''}`} to="QuickBuySellCommission" onClick={() => setActived('QuickBuySellCommission')}>Quick Buy Sell Commission</Link>
+
                                                 <Link className={`nav-link  ${actived?.includes('CoinFee') ? 'active' : ''}`} to="CoinFee" onClick={() => { setActived('CoinFee'); setIsSidebar(true); }}>Coin Listing Fee </Link>
 
                                                 <Link className={`nav-link  ${actived?.includes('P2pCommission') ? 'active' : ''}`} to="P2pCommission" onClick={() => { setActived('P2pCommission'); setIsSidebar(true); }}>P2P Commission </Link>

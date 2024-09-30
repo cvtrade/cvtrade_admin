@@ -28,6 +28,7 @@ export const ApiConfig = {
   getCoinListDetails: "getcoinListedDetails ",
   AddsubAdmin: "add-new-admin",
   AddTrade: "addnewtrader",
+  qbshistory: "qbshistory",
   subadmindelete: "delete_subadmin",
   getallorder: "getOrders",
   addNotify: "add_notification",

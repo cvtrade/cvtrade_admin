@@ -46,6 +46,7 @@ import PartnershipWithdrawal from "../ui/pages/PartnerWithdrawal";
 import PartnerStakePayout from "../ui/pages/PartnerStakePayout";
 import PartnerComission from "../ui/pages/PartnerComission";
 import AddPartner from "../ui/pages/AddPartner";
+import QuickBuySellCommission from "../ui/pages/QuickBuySellCommission";
 
 const Routing = () => {
     const [actived, setActived] = useState('')
@@ -96,6 +97,7 @@ const Routing = () => {
                             <Route exect path="P2pCommission" element={<P2PCommission />}></Route>
                             <Route exect path="UserBank" element={<UserBank />}></Route>
                             <Route exect path="UserUPI" element={<UserUPI />}></Route>
+                            <Route exect path="QuickBuySellCommission" element={<QuickBuySellCommission />}></Route>
                             <Route exect path="user_wallet_balance" element={<UserWalletBal />}></Route>
                             <Route exect path="PartnershipWithdrawal" element={<PartnershipWithdrawal />}></Route>
                             <Route exect path="PartnerStakePayout" element={<PartnerStakePayout />}></Route>
