@@ -12,6 +12,7 @@ import ReactPaginate from "react-paginate";
 const FundsPendingWithdrawal = () => {
   const [fundWithdrawal, setFundWithdrawal] = useState([]);
   const [allData, setAllData] = useState([]);
+  const [totalAmount, setTotalAmount] = useState({});
   const [trHash, setTrHash] = useState('');
   const [id, setId] = useState();
 
@@ -77,6 +78,7 @@ const FundsPendingWithdrawal = () => {
   };
 
   const columns = [
+    { name: "Sr No.", wrap: true, selector: (row, index) => index + 1, },
     { name: "Date", selector: row => moment(row?.createdAt).format("MMM Do YYYY hh:mm A"), wrap: true },
     { name: "Email Id", wrap: true, selector: row => row.emailId, },
     { name: <div style={{ whiteSpace: "revert" }}>Mobile Number</div>, selector: row => row?.mobileNumber, wrap: true },
@@ -97,10 +99,21 @@ const FundsPendingWithdrawal = () => {
     LoaderHelper.loaderStatus(true);
     await AuthService.PendingWithdrwal().then(async (result) => {
       LoaderHelper.loaderStatus(false);
-      if (result.success) {
+      if (result?.success) {
         try {
-          setFundWithdrawal(result.data);
-          setAllData(result.data);
+          setFundWithdrawal(result?.data);
+          setAllData(result?.data);
+
+          const currencyTotals = {};
+          result?.data.forEach(transaction => {
+            const { short_name, amount } = transaction;
+            if (currencyTotals[short_name]) {
+              currencyTotals[short_name] += amount;
+            } else {
+              currencyTotals[short_name] = amount;
+            }
+          });
+          setTotalAmount(currencyTotals)
         } catch (error) {
           alertErrorMessage(error);
         }
@@ -132,6 +145,19 @@ const FundsPendingWithdrawal = () => {
                       </div>
                       Pending Withdrawal
                     </h1>
+                    <div>
+                    Total Amount  {Object.entries(totalAmount).map(([currency, total]) => {
+                        return (
+                          <> 
+                         
+                          <span className="mx-2 text-warning" key={currency}>
+                            {currency}: {total?.toFixed()} 
+                          </span>
+                          </>
+                        );
+                      })}
+                    </div>
+
                   </div>
                 </div>
               </div>

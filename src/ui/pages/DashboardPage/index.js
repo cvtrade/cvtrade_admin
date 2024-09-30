@@ -139,21 +139,21 @@ const DashboardPage = () => {
                                         <div className="collapse" id="collapsePartner" data-bs-parent="#accordionSidenav">
                                             <nav className="sidenav-menu-nested nav">
 
-                                                {permissions.includes(7) && <Link className={`nav-link collapsed ${actived?.includes('AddPartner') ? 'active' : ''}`} to="AddPartner" onClick={() => { setActived('AddPartner'); setIsSidebar(true); }}>
+                                                {(permissions.includes(7) || userType === '1') && <Link className={`nav-link collapsed ${actived?.includes('AddPartner') ? 'active' : ''}`} to="AddPartner" onClick={() => { setActived('AddPartner'); setIsSidebar(true); }}>
                                                     <div className="nav-link-icon"><i className="fa fa-user-friends"></i></div>
                                                     Add Partner
                                                 </Link>}
-                                                {permissions.includes(22) && <Link className={`nav-link collapsed ${actived?.includes('partnership') ? 'active' : ''}`} to="partnership" onClick={() => { setActived('partnership'); setIsSidebar(true); }}>
+                                                {(permissions.includes(22) || userType === '1') && <Link className={`nav-link collapsed ${actived?.includes('partnership') ? 'active' : ''}`} to="partnership" onClick={() => { setActived('partnership'); setIsSidebar(true); }}>
                                                     <div className="nav-link-icon"><i className="fa fa-user-friends"></i></div>
                                                     Partners List
                                                 </Link>}
-                                                {permissions.includes(23) && <Link className={`nav-link  ${actived?.includes('PartnershipWithdrawal') ? 'active' : ''}`} to="PartnershipWithdrawal" onClick={() => { setActived('PartnershipWithdrawal'); setIsSidebar(true); }}>
+                                                {(permissions.includes(23) || userType === '1') && <Link className={`nav-link  ${actived?.includes('PartnershipWithdrawal') ? 'active' : ''}`} to="PartnershipWithdrawal" onClick={() => { setActived('PartnershipWithdrawal'); setIsSidebar(true); }}>
                                                     <div className="nav-link-icon"><i className="fa fa-user-friends"></i></div>Partner Withdrawal</Link>
                                                 }
-                                                {permissions.includes(24) && <Link className={`nav-link  ${actived?.includes('PartnerStakePayout') ? 'active' : ''}`} to="PartnerStakePayout" onClick={() => { setActived('PartnerStakePayout'); setIsSidebar(true); }}>
+                                                {(permissions.includes(24) || userType === '1') && <Link className={`nav-link  ${actived?.includes('PartnerStakePayout') ? 'active' : ''}`} to="PartnerStakePayout" onClick={() => { setActived('PartnerStakePayout'); setIsSidebar(true); }}>
                                                     <div className="nav-link-icon"><i className="fa fa-user-friends"></i></div>Partner Stake Distribution</Link>}
 
-                                                {permissions.includes(25) && <Link className={`nav-link  ${actived?.includes('PartnerComission') ? 'active' : ''}`} to="PartnerComission" onClick={() => { setActived('PartnerComission'); setIsSidebar(true); }}>
+                                                {(permissions.includes(25) || userType === '1') && <Link className={`nav-link  ${actived?.includes('PartnerComission') ? 'active' : ''}`} to="PartnerComission" onClick={() => { setActived('PartnerComission'); setIsSidebar(true); }}>
                                                     <div className="nav-link-icon"><i className="fa fa-user-friends"></i></div>Partner Comission</Link>
                                                 }
                                                 {/* <Link className={`nav-link  ${actived?.includes('p2pPaymentOptions') ? 'active' : ''}`} to="p2pPaymentOptions" onClick={() => setActived('p2pPaymentOptions')}>Payment Options</Link> */}

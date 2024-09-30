@@ -9,18 +9,19 @@ import ReactPaginate from "react-paginate";
 
 const FundsManagement = () => {
   const [fundWithdrawal, setFundWithdrawal] = useState([]);
+  const [totalAmount, setTotalAmount] = useState({});
   const [allData, setAllData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(100);
-  const [totalData,setTotalData] = useState()
+  const [totalData, setTotalData] = useState()
 
 
   const handlePageChange = ({ selected }) => {
-      setCurrentPage(selected + 1);
+    setCurrentPage(selected + 1);
   };
 
 
-  const pageCount = totalData/itemsPerPage
+  const pageCount = totalData / itemsPerPage
 
   const skip = (currentPage - 1) * itemsPerPage;
 
@@ -29,22 +30,22 @@ const FundsManagement = () => {
     return <strong className="text-success">{row.status}</strong>
   };
 
-  const approvedByFormatter = (row) =>{
+  const approvedByFormatter = (row) => {
     return (
-        <>{row?.admin_email}
-        <br/>
-       {row?.admin_ip && "IP:" + " " + row?.admin_ip}</>
+      <>{row?.admin_email}
+        <br />
+        {row?.admin_ip && "IP:" + " " + row?.admin_ip}</>
     )
-}
+  }
 
   const columns = [
-    { name: "Sr No.", wrap: true, selector: (row, index) => skip + 1 + index, },
-    { name: "Date", grow:2, selector: row => moment(row?.updatedAt).format("MMM Do YYYY hh:mm A"), wrap: true },
-    { name: "User Id",wrap: true, selector: row => row.user_id, },
+    { name: "Sr No.", wrap: true, selector: (row, index) => row?.index, },
+    { name: "Date", grow: 2, selector: row => moment(row?.updatedAt).format("MMM Do YYYY hh:mm A"), wrap: true },
+    { name: "User Id", wrap: true, selector: row => row.user_id, },
     { name: "Chain", selector: row => row.chain, },
     { name: "Coin Name", wrap: true, selector: row => row.short_name, },
-    { name: <div style={{whiteSpace:"revert"}}>Withdrawal Address</div>, wrap: true, selector: row => row.to_address, },
-    { name: <div style={{whiteSpace:"revert"}}>Transaction Hash</div>, wrap: true, selector: row => row.transaction_hash, },
+    { name: <div style={{ whiteSpace: "revert" }}>Withdrawal Address</div>, wrap: true, selector: row => row.to_address, },
+    { name: <div style={{ whiteSpace: "revert" }}>Transaction Hash</div>, wrap: true, selector: row => row.transaction_hash, },
     { name: "Amount", wrap: true, selector: row => row.amount, },
     { name: "Fee", wrap: true, selector: row => row.fee, },
     { name: "Status", selector: statusFormatter, },
@@ -61,11 +62,23 @@ const FundsManagement = () => {
     LoaderHelper.loaderStatus(true);
     await AuthService.completeWithdrawalRequest(skip, limit).then(async (result) => {
       LoaderHelper.loaderStatus(false);
-      if (result.success) {
+      if (result?.success) {
         try {
-          setFundWithdrawal(result.data);
+          let filteredData = result?.data?.map((item, index) => ({ ...item, index: index + 1 }))
+          setFundWithdrawal(filteredData);
           setTotalData(result?.totalCount)
-          setAllData(result.data);
+          setAllData(filteredData);
+
+          const currencyTotals = {};
+          result?.data.forEach(transaction => {
+            const { short_name, amount } = transaction;
+            if (currencyTotals[short_name]) {
+              currencyTotals[short_name] += amount;
+            } else {
+              currencyTotals[short_name] = amount;
+            }
+          });
+          setTotalAmount(currencyTotals)
         } catch (error) {
           alertErrorMessage(error);
         }
@@ -97,6 +110,19 @@ const FundsManagement = () => {
                     </div>
                     Completed Withdrawal
                   </h1>
+                  <div>
+                  Total Amount  {Object.entries(totalAmount).map(([currency, total]) => {
+                        return (
+                          <> 
+                       
+                          <span className="mx-2 text-warning" key={currency}>
+                            {currency}: {total?.toFixed(4)} 
+                          </span>
+                          </>
+                        );
+                      })}
+                    </div>
+
                 </div>
               </div>
             </div>
@@ -110,19 +136,19 @@ const FundsManagement = () => {
                 <input className="form-control form-control-solid" id="inputLastName" type="text" placeholder="Search here..." name="search" onChange={handleSearch} />
               </div>
               {fundWithdrawal.length === 0 ? "" :
-              <div className="dropdown">
-                <button className="btn btn-dark btn-sm dropdown-toggle" id="dropdownFadeInUp" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Export{" "}
-                </button>
-                <div className="dropdown-menu animated--fade-in-up" aria-labelledby="dropdownFadeInUp" >
-                  <CSVLink data={fundWithdrawal} className="dropdown-item">
-                    Export as CSV
-                  </CSVLink>
-                </div>
-              </div>}
+                <div className="dropdown">
+                  <button className="btn btn-dark btn-sm dropdown-toggle" id="dropdownFadeInUp" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Export{" "}
+                  </button>
+                  <div className="dropdown-menu animated--fade-in-up" aria-labelledby="dropdownFadeInUp" >
+                    <CSVLink data={fundWithdrawal} className="dropdown-item">
+                      Export as CSV
+                    </CSVLink>
+                  </div>
+                </div>}
             </div>
             <div className="card-body mt-3">
               <div className="table-responsive" width="100%">
-                <DataTableBase columns={columns} data={fundWithdrawal}  pagination={true}/>
+                <DataTableBase columns={columns} data={fundWithdrawal} pagination={true} />
               </div>
               {/* {totalData > 5 ? <ReactPaginate
                             pageCount={pageCount}
