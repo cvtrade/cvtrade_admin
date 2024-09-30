@@ -158,7 +158,23 @@ const SubAdmin = () => {
         },
         {
             value: 7,
-            label: "Partners"
+            label: "Add Partners"
+        },
+        {
+            value: 22,
+            label: "Partners List"
+        },
+        {
+            value: 23,
+            label: "Partners Withdrawal"
+        },
+        {
+            value: 24,
+            label: "Partners Stake Distribution"
+        },
+        {
+            value: 25,
+            label: "Partners Commissions"
         },
         {
             value: 8,

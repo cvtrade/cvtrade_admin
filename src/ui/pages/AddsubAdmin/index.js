@@ -87,7 +87,23 @@ const AddsubAdmin = () => {
         },
         {
             value: 7,
-            label: "Partners"
+            label: "Add Partners"
+        },
+        {
+            value: 22,
+            label: "Partners List"
+        },
+        {
+            value: 23,
+            label: "Partners Withdrawal"
+        },
+        {
+            value: 24,
+            label: "Partners Stake Distribution"
+        },
+        {
+            value: 25,
+            label: "Partners Commissions"
         },
         {
             value: 8,
@@ -148,7 +164,7 @@ const AddsubAdmin = () => {
 
     ];
 
-   
+
 
 
     return (
@@ -198,7 +214,7 @@ const AddsubAdmin = () => {
                                         <label className="small mb-1" for="inputLocation"> Confirm Password<em>*</em></label>
                                         <input className="form-control form-control-solid" id="inputLocation" type="text" placeholder="Enter your Password Again" name="confirmPassword" value={confirmPassword} onChange={handleInputChange} />
                                     </div>
-                                   
+
                                 </div>
                                 <div className="row gx-3 mb-3 " >
                                     <div className="col-md-6" >
