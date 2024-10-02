@@ -26,7 +26,7 @@ const WithdrawalFees = () => {
 
   const columns = [
     { name: "Sr No.", wrap: true, selector: (row, index) => skip + 1 + index, },
-    { name: "Date",  wrap: true,selector: row => moment(row?.createdAt).format("MMM Do YYYY hh:mm A"), },
+    { name: "Date", wrap: true, selector: row => moment(row?.createdAt).format("MMM Do YYYY hh:mm A"), },
     { name: "From User", wrap: true, selector: row => row.user_id, },
     { name: "Name", wrap: true, selector: row => row.short_name, },
     { name: "Fee", wrap: true, selector: row => row.fee, },
@@ -36,14 +36,14 @@ const WithdrawalFees = () => {
 
   useEffect(() => {
     WithdrawalFees(skip, 100);
-  }, []);
+  }, [currentPage, skip]);
 
   const WithdrawalFees = async (skip, limit) => {
     LoaderHelper.loaderStatus(true);
     await AuthService.withdrawalFees(skip, limit).then(async (result) => {
       LoaderHelper.loaderStatus(false);
       if (result?.success) {
-        setwithdrawalFees(result?.data?.list?.reverse());
+        setwithdrawalFees(result?.data?.list);
         setallData(result?.data?.list);
         setTotalData(result?.totalCount)
       } else {
@@ -63,7 +63,7 @@ const WithdrawalFees = () => {
         (!toDate || createdAtDate <= new Date(toDate))
       );
     });
-    setwithdrawalFees(filteredData?.reverse())
+    setwithdrawalFees(filteredData)
   }
   const ResetfilterDate = () => {
     setFromDate('')
@@ -94,7 +94,7 @@ const WithdrawalFees = () => {
         </header>
         {/* Main page content */}
         <div className="container-xl px-4 mt-n10">
-          <div className="filter_bar">
+          {/* <div className="filter_bar">
             <form className="row">
               <div className="mb-3 col ">
                 <input
@@ -141,7 +141,7 @@ const WithdrawalFees = () => {
                 </div>
               </div>
             </form>
-          </div>
+          </div> */}
           <div className="card mb-4">
             <div className="card-header">
               Withdrawal Fees
@@ -171,7 +171,13 @@ const WithdrawalFees = () => {
               )}
             </div>
             <div className="table-responsive" width="100%">
-              <DataTableBase columns={columns} data={withdrawalFees} pagination={true} />
+              <DataTableBase columns={columns} data={withdrawalFees} pagination={false} />
+              {totalData > 5 ? <ReactPaginate
+                pageCount={pageCount}
+                onPageChange={handlePageChange}
+                containerClassName={'customPagination'}
+                activeClassName={'active'}
+              /> : ""}
             </div>
 
           </div>
