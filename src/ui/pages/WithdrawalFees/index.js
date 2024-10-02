@@ -26,7 +26,7 @@ const WithdrawalFees = () => {
 
   const columns = [
     { name: "Sr No.", wrap: true, selector: (row, index) => skip + 1 + index, },
-    { name: "Date", wrap: true, selector: row => moment(row?.createdAt).format("MMM Do YYYY hh:mm A"), },
+    { name: "Date", wrap: true, selector: row => moment(row?.updatedAt).format("MMM Do YYYY hh:mm A"), },
     { name: "From User", wrap: true, selector: row => row.user_id, },
     { name: "Name", wrap: true, selector: row => row.short_name, },
     { name: "Fee", wrap: true, selector: row => row.fee, },
