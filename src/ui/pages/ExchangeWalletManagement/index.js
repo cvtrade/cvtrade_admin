@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {  alertErrorMessage,  alertSuccessMessage,} from "../../../customComponent/CustomAlertMessage";
+import { alertErrorMessage, alertSuccessMessage, } from "../../../customComponent/CustomAlertMessage";
 import AuthService from "../../../api/services/AuthService";
 import { $ } from "react-jquery-plugin";
 import { CSVLink } from "react-csv";
@@ -18,6 +18,11 @@ const ExchangeWalletManagement = () => {
   const [accType, setAccType] = useState('');
   const [chain, setChain] = useState([]);
   const [selectedChain, setSelectedChain] = useState('');
+  const [hideZeroBal, setHideZeroBal] = useState(true);
+
+  const handleHideZeroBal = (e) => {
+    setHideZeroBal(e.target.checked)
+  };
 
   const linkFollow = (row) => {
     return (
@@ -45,7 +50,7 @@ const ExchangeWalletManagement = () => {
   };
 
   const columns = [
-    { name: "User Id", wrap: true,  selector: row => row.userId, },
+    { name: "User Id", wrap: true, selector: row => row.userId, },
     { name: "Email Id", wrap: true, selector: row => row.emailId, },
     { name: "Coin Name", selector: row => row.short_name, },
     { name: "Available", selector: balanceFormatter, },
@@ -66,6 +71,18 @@ const ExchangeWalletManagement = () => {
     setChain(filerdData[0]?.chain)
 
   }, [userWalletList]);
+
+  useEffect(() => {
+    if (allData?.length > 0) {
+      if (hideZeroBal) {
+        let filteredItem = allData?.filter((item) => item?.balance > 0 || item?.locked_balance > 0)
+        setUserWalletList(filteredItem)
+      } else {
+        setUserWalletList(allData)
+      }
+    }
+
+  }, [hideZeroBal,allData]);
 
 
   const handleUserWalletList = async (coinName) => {
@@ -96,7 +113,7 @@ const ExchangeWalletManagement = () => {
           setCoinList(result.data);
 
         } catch (error) {
-          alertErrorMessage(error); 
+          alertErrorMessage(error);
 
         }
       } else {
@@ -188,27 +205,31 @@ const ExchangeWalletManagement = () => {
                     <div className="col-5">
                       <input className="form-control form-control-solid" id="inputLastName" type="text" placeholder="Search here..." name="search" onChange={handleSearch} />
                     </div>
+                    <div className="col-3">
+                      <input className="mx-2" id="hideZero" type="checkbox" checked={hideZeroBal} onChange={handleHideZeroBal} />
+                      <label for="hideZero">Hide 0 Balance</label>
+                    </div>
                     {userWalletList.length === 0 ? "" :
-                    <div className="dropdown">
-                      <button
-                        className="btn btn-dark btn-sm dropdown-toggle"
-                        id="dropdownFadeInUp"
-                        type="button"
-                        data-bs-toggle="dropdown"
-                        aria-haspopup="true"
-                        aria-expanded="false"
-                      >
-                        Export
-                      </button>
-                      <div
-                        className="dropdown-menu animated--fade-in-up"
-                        aria-labelledby="dropdownFadeInUp"
-                      >
-                        <CSVLink className="dropdown-item" data={userWalletList}>
-                          Export as CSV
-                        </CSVLink>
-                      </div>
-                    </div>}
+                      <div className="dropdown">
+                        <button
+                          className="btn btn-dark btn-sm dropdown-toggle"
+                          id="dropdownFadeInUp"
+                          type="button"
+                          data-bs-toggle="dropdown"
+                          aria-haspopup="true"
+                          aria-expanded="false"
+                        >
+                          Export
+                        </button>
+                        <div
+                          className="dropdown-menu animated--fade-in-up"
+                          aria-labelledby="dropdownFadeInUp"
+                        >
+                          <CSVLink className="dropdown-item" data={userWalletList}>
+                            Export as CSV
+                          </CSVLink>
+                        </div>
+                      </div>}
                   </div>
                   <div className="table-responsive" width="100%">
                     <DataTableBase columns={columns} data={userWalletList} />
@@ -247,19 +268,19 @@ const ExchangeWalletManagement = () => {
                 <div className="form-group  mb-3 position-relative ">
                   <label className="small mb-1">Select Type</label>
                   <select
-                       className="form-control form-control-solid form-select"
+                    className="form-control form-control-solid form-select"
                     value={type}
-                      onChange={(e) => setType(e.target.value)}
-                    >
+                    onChange={(e) => setType(e.target.value)}
+                  >
                     <option hidden>Select</option>
                     <option value="CREDIT">CREDIT</option>
                     <option value="DEBIT">DEBIT</option>
-                    </select>
+                  </select>
                 </div>
                 <div className="form-group  mb-3 position-relative ">
                   <label className="small mb-1">Select Wallet</label>
                   <select
-                   className="form-control form-control-solid form-select"
+                    className="form-control form-control-solid form-select"
                     value={accType}
                     onChange={(e) => setAccType(e.target.value)}
                   >

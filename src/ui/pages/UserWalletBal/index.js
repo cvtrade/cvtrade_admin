@@ -10,20 +10,36 @@ const UserWalletBal = () => {
 
 
   const [walletData, setWalletData] = useState([]);
+  const [hideZeroBal, setHideZeroBal] = useState(true);
+  const [allData, setAllData] = useState([]);
 
-
+  const handleHideZeroBal = (e) => {
+    setHideZeroBal(e.target.checked)
+  };
   const columns = [
-    { name: "Email", sort: true, wrap: true, selector: row => row.emailId ? row.emailId : "-----", },
-    { name: "Mobile Number", sort: true, wrap: true, selector: row => row.mobileNumber || "-----", },
-    { name: "Name", sort: true, wrap: true, selector: row => row?.firstName ? (row?.firstName + " "+ row?.lastName) : "-----" , },
-    { name: "CVT Balance", sort: true, wrap: true, selector: row => row.cvtBalance || "0", },
-    { name: "CVT Locked Balance", sort: true, wrap: true, selector: row => row.cvtLockedBalance || "0", },
-    { name: "CVT Total", sort: true, wrap: true, selector: row => row.cvtTotal || "0", },
-    { name: "USDT Balance", sort: true, wrap: true, selector: row => row.usdtLockedBalance || "0", },
-    { name: "USDT Total", sort: true, wrap: true, selector: row => row.usdtTotal || "0", },
+    { name: "User Id", width: "200px", sort: true, wrap: true, selector: row => row.user_id ? row.user_id : "-----", },
+    { name: "Email", width: "200px", sort: true, wrap: true, selector: row => row.emailId ? row.emailId : "-----", },
+    { name: "Mobile Number", width: "150px", sort: true, wrap: true, selector: row => row.mobileNumber || "-----", },
+    { name: "Name", width: "150px", sort: true, wrap: true, selector: row => row?.firstName ? (row?.firstName + " " + row?.lastName) : "-----", },
+    { name: "CVT Balance", width: "150px", sort: true, wrap: true, selector: row => row.cvtBalance || "0", },
+    { name: "CVT Locked Balance", width: "150px", sort: true, wrap: true, selector: row => row.cvtLockedBalance || "0", },
+    { name: "CVT Total", width: "150px", sort: true, wrap: true, selector: row => row.cvtTotal || "0", },
+    { name: "USDT Balance", width: "150px", sort: true, wrap: true, selector: row => row.usdtLockedBalance || "0", },
+    { name: "USDT Locked Balance", width: "150px", sort: true, wrap: true, selector: row => row.usdtLockedBalance || "0", },
+    { name: "USDT Total", width: "150px", sort: true, wrap: true, selector: row => row.usdtTotal || "0", },
   ];
 
+  useEffect(() => {
+    if (allData?.length > 0) {
+      if (hideZeroBal) {
+        let filteredItem = allData?.filter((item) => item?.cvtTotal > 0 || item?.usdtTotal > 0)
+        setWalletData(filteredItem?.reverse())
+      } else {
+        setWalletData(allData?.reverse())
+      }
+    }
 
+  }, [hideZeroBal,allData]);
 
 
   useEffect(() => {
@@ -36,7 +52,8 @@ const UserWalletBal = () => {
       if (result?.success) {
         LoaderHelper.loaderStatus(false);
         try {
-          setWalletData(result?.data?.reverse());
+          setWalletData(result?.data);
+          setAllData(result?.data);
         } catch (error) {
           alertErrorMessage(error);
         }
@@ -69,6 +86,10 @@ const UserWalletBal = () => {
         <div className="container-xl px-4 mt-n10">
           <div className="card mb-4">
             <div class="card-header">User Wallet Balance
+              <div className="col-3">
+                <input className="mx-2" id="hideZero" type="checkbox" checked={hideZeroBal} onChange={handleHideZeroBal} />
+                <label for="hideZero">Hide 0 Balance</label>
+              </div>
               <div class="dropdown">
                 <button class="btn btn-dark btn-sm dropdown-toggle" id="dropdownFadeInUp" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Export </button>
                 <div class="dropdown-menu animated--fade-in-up" aria-labelledby="dropdownFadeInUp">
@@ -76,10 +97,8 @@ const UserWalletBal = () => {
                 </div>
               </div>
             </div>
-            <div className="card-body mt-3">
-              <table className="" width="100%" >
-                <DataTableBase columns={columns} data={walletData} />
-              </table>
+            <div className="table-responsive" width="100%">
+              <DataTableBase columns={columns} data={walletData} pagination={true} />
             </div>
           </div>
         </div>
