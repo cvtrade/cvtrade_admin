@@ -119,14 +119,15 @@ const AuthService = {
     return ApiCallPost(url, params, headers);
   },
 
-  getverifyidentity: async (id, status, adminId) => {
+  getverifyidentity: async (id, status, rejectReason) => {
     const token = sessionStorage.getItem("token");
     const { baseUrl, verifyIdentity } = ApiConfig;
     const url = baseUrl + verifyIdentity;
     const params = {
       userId: id,
       status: status,
-      adminId: adminId,
+      adminId: "",
+      kyc_reject_reason: rejectReason,
     }
     const headers = {
       "Content-Type": "application/json",

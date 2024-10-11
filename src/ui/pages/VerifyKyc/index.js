@@ -28,6 +28,7 @@ const VerifyKyc = (props) => {
   const [address, setAddress] = useState("");
   const [rejectReason, setRejectReason] = useState("");
   const [activeScreen, setActiveScreen] = useState("pending");
+  const [country, setCountry] = useState("");
   const [kycData, setkycData] = useState(props?.kycData);
 
   const adminId = sessionStorage.getItem("userId")
@@ -37,6 +38,8 @@ const VerifyKyc = (props) => {
       case "rejectReason":
         setRejectReason(event.target.value);
         break;
+      default:
+        break;
     }
   };
 
@@ -45,38 +48,42 @@ const VerifyKyc = (props) => {
   }, []);
 
   const handleData = async (userId) => {
-    await AuthService.getkycdata(userId).then(async (result) => {
-      if (result.success) {
-        try {
-          setFirstName(result.data?.first_name);
-          setLastName(result.data?.last_name);
-          setSelfie(result.data?.user_selfie);
-          setMobile(result.data?.mobileNumber);
-          setUpdate(result.data?.updatedAt);
-          setCity(result.data?.city);
-          setPinCode(result.data?.zip_code);
-          setState(result.data?.state);
-          setBirthday(result.data?.dob);
-          setAddress(result.data?.address);
-          setPanCardImage(result.data?.pancard_image);
-          setPanCardNo(result.data?.pancard_number);
-          setDocType(result.data?.document_type);
-          setDocNumber(result.data?.document_number);
-          setDocFrontImg(result.data?.document_front_image);
-          setDocBackImg(result.data?.document_back_image);
-          setDate(result.data?.updatedAt);
-        } catch (error) {
-          alertErrorMessage("Unauthorized");
+try {
+      LoaderHelper.loaderStatus(true);
+      await AuthService.getkycdata(userId).then(async (result) => {
+        if (result.success) {
+          try {
+            console.log("🚀 ~ awaitAuthService.getkycdata ~ result.data:", result.data)
+  
+            setFirstName(result.data?.first_name);
+            setCountry(result.data?.country);
+            setLastName(result.data?.last_name);
+            setSelfie(result.data?.user_selfie);
+            setMobile(result.data?.mobileNumber);
+            setUpdate(result.data?.updatedAt);
+            setCity(result.data?.city);
+            setPinCode(result.data?.zip_code);
+            setState(result.data?.state);
+            setBirthday(result.data?.dob);
+            setAddress(result.data?.address);
+            setPanCardImage(result.data?.pancard_image);
+            setPanCardNo(result.data?.pancard_number);
+            setDocType(result.data?.document_type);
+            setDocNumber(result.data?.document_number);
+            setDocFrontImg(result.data?.document_front_image);
+            setDocBackImg(result.data?.document_back_image);
+            setDate(result.data?.updatedAt);
+          } catch (error) {
+            alertErrorMessage("Unauthorized");
+          }
         }
-      } else {
-        // alertErrorMessage(result.message);
-      }
-    });
+      });
+} finally{ LoaderHelper.loaderStatus(false);}
   };
 
-  const verifyIdentity = async (id, status) => {
+  const verifyIdentity = async (id, status, rejectReason) => {
     LoaderHelper.loaderStatus(true);
-    await AuthService.getverifyidentity(id, status,adminId).then(
+    await AuthService.getverifyidentity(id, status, rejectReason).then(
       async (result) => {
         if (result?.success) {
           LoaderHelper.loaderStatus(false);
@@ -137,12 +144,12 @@ const VerifyKyc = (props) => {
                         <div className="d-flex">
                           <button
                             className="btn btn-danger btn-block"
-                            // data-bs-toggle="modal"
-                            // data-bs-target="#rejectmodal"
+                            data-bs-toggle="modal"
+                            data-bs-target="#rejectmodal"
                             type="button"
-                            onClick={() => {
-                              verifyIdentity(props?.userId, 3);
-                            }}
+                          // onClick={() => {
+                          //   verifyIdentity(props?.userId, 3);
+                          // }}
                           >
                             Reject
                           </button>
@@ -264,13 +271,13 @@ const VerifyKyc = (props) => {
                   <div className="card card-header-actions mb-4">
                     <div className="card-body">
                       <div className="row">
-                       
+
                         <div className="col-6  mb-3">
                           <div className="doc_img">
                             <div className="row mb-3">
                               <div className="col">
                                 {" "}
-                                {docType} <small> (Front) </small>{" "}
+                                {country === "India" ? docType : "National ID"}    <small> (Front) </small>{" "}
                               </div>
                             </div>
                             <div className="ratio ratio-16x9">
@@ -294,7 +301,7 @@ const VerifyKyc = (props) => {
                             <div className="row mb-3">
                               <div className="col">
                                 {" "}
-                                {docType} <small> (Back) </small>{" "}
+                                {country === "India" ? docType : "National ID"} <small> (Back) </small>{" "}
                               </div>
                             </div>
                             <div className="ratio ratio-16x9">
@@ -316,7 +323,7 @@ const VerifyKyc = (props) => {
                         <div className="doc_img">
                           <div className="row mb-3">
                             <div className="col">
-                              {docType} No. : {docNumber}
+                              {country === "India" ? docType : "National ID"} No. : {docNumber}
 
                             </div>
                           </div>
@@ -327,7 +334,7 @@ const VerifyKyc = (props) => {
                         <div className="col-6  mb-3">
                           <div className="doc_img">
                             <div className="row mb-3">
-                              <div className="col"> Pan Card </div>
+                              <div className="col"> {country === "India" ? "Pan Card " : "Driving Licence"}</div>
                             </div>
                             <div className="ratio ratio-16x9">
                               <img
@@ -345,7 +352,7 @@ const VerifyKyc = (props) => {
                                 }
                               />
                             </div>
-                           
+
                           </div>
                         </div>
                         <div className="col-6  mb-3">
@@ -371,11 +378,11 @@ const VerifyKyc = (props) => {
                             </div>
                           </div>
                         </div>
-                        
+
                         <div className="doc_img">
                           <div className="row mb-3">
                             <div className="col">
-                             PanCardNo: {panCardNo}
+                              {country === "India" ? "Pan Card No." : "Driving Licence"}: {panCardNo}
 
                             </div>
                           </div>
@@ -391,7 +398,7 @@ const VerifyKyc = (props) => {
       </div>
 
       {/* alert modal data */}
-      {/* <div
+      <div
         className="modal"
         id="rejectmodal"
         tabindex="-1"
@@ -435,18 +442,19 @@ const VerifyKyc = (props) => {
                 <button
                   className="btn btn-danger btn-block w-100"
                   type="button"
+                  data-bs-dismiss="modal"
                   disabled={!rejectReason}
                   onClick={() => {
                     verifyIdentity(props?.userId, 3, rejectReason);
                   }}
                 >
-                  Continue
+                  Reject KYC
                 </button>
               </form>
             </div>
           </div>
         </div>
-      </div> */}
+      </div>
       {/* alert modal data */}
 
       {/* Image Detail */}
