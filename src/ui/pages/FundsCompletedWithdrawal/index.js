@@ -46,7 +46,7 @@ const FundsManagement = () => {
     { name: "Coin Name", wrap: true, selector: row => row.short_name, },
     { name: <div style={{ whiteSpace: "revert" }}>Withdrawal Address</div>, wrap: true, selector: row => row.to_address, },
     { name: <div style={{ whiteSpace: "revert" }}>Transaction Hash</div>, wrap: true, selector: row => row.transaction_hash, },
-    { name: "Amount", wrap: true, selector: row => row.amount, },
+    { name: "Amount", sortable:true, wrap: true, selector: row => row.amount, },
     { name: "Fee", wrap: true, selector: row => row.fee, },
     { name: "Status", selector: statusFormatter, },
   ];
@@ -96,6 +96,60 @@ const FundsManagement = () => {
     setFundWithdrawal(matchingObjects);
   };
 
+  const [fromDate, setFromDate] = useState('');
+  const [toDate, setToDate] = useState('');
+
+  const filterDate = () => {
+    const filteredData = allData.filter((item) => {
+      const createdAtDate = new Date(item.createdAt);
+
+      // Parse fromDate and toDate and include full day for toDate
+      const startDate = fromDate ? new Date(fromDate) : null;
+      let endDate = toDate ? new Date(toDate) : null;
+
+      // Adjust toDate to include the entire day (23:59:59 of that day)
+      if (endDate) {
+        endDate.setHours(23, 59, 59, 999); // Set to the end of the selected day
+      }
+
+      return (
+        (!startDate || createdAtDate >= startDate) &&
+        (!endDate || createdAtDate <= endDate)
+      );
+    });
+
+    const currencyTotals = {};
+    filteredData.forEach(transaction => {
+      const { short_name, amount } = transaction;
+      if (currencyTotals[short_name]) {
+        currencyTotals[short_name] += amount;
+      } else {
+        currencyTotals[short_name] = amount;
+      }
+    });
+    setTotalAmount(currencyTotals)
+
+    setFundWithdrawal(filteredData); // Reverse the filtered data if necessary
+  }
+
+  const ResetfilterDate = () => {
+    setFromDate('')
+    setToDate('')
+    setFundWithdrawal(allData)
+    const currencyTotals = {};
+    allData.forEach(transaction => {
+      const { short_name, amount } = transaction;
+      if (currencyTotals[short_name]) {
+        currencyTotals[short_name] += amount;
+      } else {
+        currencyTotals[short_name] = amount;
+      }
+    });
+    setTotalAmount(currencyTotals)
+  }
+
+
+
   return (
     <div id="layoutSidenav_content">
       <main>
@@ -111,17 +165,17 @@ const FundsManagement = () => {
                     Completed Withdrawal
                   </h1>
                   <div>
-                  Total Amount  {Object.entries(totalAmount).map(([currency, total]) => {
-                        return (
-                          <> 
-                       
+                    Total Amount  {Object.entries(totalAmount).map(([currency, total]) => {
+                      return (
+                        <>
+
                           <span className="mx-2 text-warning" key={currency}>
-                            {currency}: {total?.toFixed(4)} 
+                            {currency}: {total?.toFixed(4)}
                           </span>
-                          </>
-                        );
-                      })}
-                    </div>
+                        </>
+                      );
+                    })}
+                  </div>
 
                 </div>
               </div>
@@ -131,22 +185,66 @@ const FundsManagement = () => {
         <div className="container-xl px-4 mt-n10">
           <div className="card mb-4">
             <div className="card-header">
-              Completed Withdrawal
-              <div className="col-5">
-                <input className="form-control form-control-solid" id="inputLastName" type="text" placeholder="Search here..." name="search" onChange={handleSearch} />
+              <div className="mb-3 col ">
+                <input
+                  type="date"
+                  className="form-control form-control-solid"
+                  data-provide="datepicker"
+                  id="litepickerRangePlugin"
+                  name="dateFrom"
+                  value={fromDate}
+                  onChange={(e) => { setFromDate(e.target.value); }}
+                />
               </div>
-              {fundWithdrawal.length === 0 ? "" :
+              <div className="mb-3 col-3 ">
+                <input
+                  type="date"
+                  className="form-control form-control-solid"
+                  data-provide="datepicker"
+                  id="litepickerRangePlugin"
+                  name="dateTo"
+                  value={toDate}
+                  onChange={(e) => { setToDate(e.target.value); }}
+                />
+              </div>
+              <div className="mb-3 col-3 ">
+                <div className="row">
+                  <div className="col">
+                    <button
+                      className="btn btn-indigo btn-block w-100"
+                      type="button"
+                      onClick={filterDate}
+                      disabled={!fromDate || !toDate}
+                    >
+                      Search
+                    </button>
+                  </div>
+                  <div className="col">
+                    <button
+                      className="btn btn-indigo btn-block w-100"
+                      type="button"
+                      onClick={ResetfilterDate}
+                    >
+                      Reset
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div className="col-2 mx-1 mb-3">
+                <input className="form-control form-control-solid" id="inputLastName" type="search" placeholder="Search here..." name="search" onChange={handleSearch} />
+              </div>
+        
                 <div className="dropdown">
-                  <button className="btn btn-dark btn-sm dropdown-toggle" id="dropdownFadeInUp" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Export{" "}
+                  <button className="btn btn-dark btn-md dropdown-toggle mb-3" id="dropdownFadeInUp" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Export{" "}
                   </button>
                   <div className="dropdown-menu animated--fade-in-up" aria-labelledby="dropdownFadeInUp" >
                     <CSVLink data={fundWithdrawal} className="dropdown-item">
                       Export as CSV
                     </CSVLink>
                   </div>
-                </div>}
+                </div>
             </div>
-            <div className="card-body mt-3">
+            <div className="card-body ">
               <div className="table-responsive" width="100%">
                 <DataTableBase columns={columns} data={fundWithdrawal} pagination={true} />
               </div>
