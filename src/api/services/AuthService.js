@@ -837,17 +837,19 @@ const AuthService = {
     return ApiCallPost(url, params, headers);
   },
 
-  OpenOrderStatus: async (id) => {
+  OpenOrderStatus: async (id, user_id) => {
     const token = sessionStorage.getItem("token");
     const { baseAdmin, OpenOrderStatus } = ApiConfig;
-    const url = baseAdmin + OpenOrderStatus + `/${id}`;
+    const url = baseAdmin + OpenOrderStatus ;
     const params = {
+      order_id: id,
+      userId: user_id
     };
     const headers = {
       "Content-Type": "application/json",
       Authorization: token,
     };
-    return ApiCallDelete(url, params, headers);
+    return ApiCallPost(url, params, headers);
   },
 
   CoinDetailsStatus: async (userId, cell) => {
